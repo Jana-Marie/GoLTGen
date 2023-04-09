@@ -1,6 +1,6 @@
 # GoLTGen
 
-Custom Game of Life alike cellular automaton with a flexible adn extended set of rules.
+Custom Game of Life alike cellular automaton with a flexible and extended set of rules.
 
 [production_web.webm](https://user-images.githubusercontent.com/7141239/230789976-2c1fab93-3d73-41d3-bd40-d1ee3da4c4eb.webm)
 
