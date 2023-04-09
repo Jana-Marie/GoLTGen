@@ -113,6 +113,8 @@ class GoLT:
 			self.evaluate_step()
 		if gen <= 0:
 			gen = 0
+		# return value can either be the current game or the current age of the cells, choose your fighter :3
+		# 
 		return self.lifeTime[gen]
 		#return self.state[gen]
 
@@ -218,7 +220,11 @@ class GoLT_vis():
 		self.gol = gol
 
 		plt.figure()
-		self.imgobj = plt.imshow(np.vstack(self.stacker(gol.state[-1])), cmap = cm.jet, vmin=0, vmax=200)
+		# change cmap, vmin & vmax to change the overall visual effect
+		# cmap can be any matplotlib color map, these include: viridis (<3), jet, grey, magma, turbo and many more
+		# vmin=0 is usually a good choice
+		# vmax should be between 1 and 255; go, play with it!
+		self.imgobj = plt.imshow(np.vstack(self.stacker(gol.state[-1])), cmap=cm.jet, vmin=0, vmax=200)
 		plt.gcf().canvas.mpl_connect('key_press_event', self.compute_event)
 		plt.ion()
 		plt.show()
