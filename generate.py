@@ -24,9 +24,21 @@ from datetime import datetime
  Usage (other) python3 generate.py <name> or python3 generate.py
 '''
 
-gameSize = (50,50)
-gameTarget = 287
+# size of a single game, will be tiled 3x3
+gameSize = (100,100)
+# Target generation, you can navigate generations using arrow keys
+gameTarget = 130
 gameSeed = 'nyaaaa'
+# change cmap, vmin & vmax to change the overall visual effect
+# cmap can be any matplotlib color map, these include: viridis (<3), jet, grey, magma, turbo and many more
+# vmin=0 is usually a good choice
+# vmax should be between 1 and 255; go, play with it!
+gameMap = cm.viridis
+gameMapMin = 0
+gameMapMax = 1
+# time (1) or game (0)
+gameVisMode = 1
+# use gol if no key is given
 ruleKey = "gol" if len(sys.argv) <= 1 else sys.argv[1]
 gameRules = [
 	{
@@ -107,16 +119,16 @@ class GoLT:
 		self.startTime = time.time()
 		return t
 
-	def vis_helper(self, gen):
+	def vis_helper(self, gen, mode):
 		# vis helper returns a specific generation and spawns new ones if we reach for the future
 		while self.gameCount <= (gen + 5):
 			self.evaluate_step()
 		if gen <= 0:
 			gen = 0
 		# return value can either be the current game or the current age of the cells, choose your fighter :3
-		# 
-		return self.lifeTime[gen]
-		#return self.state[gen]
+		if mode:
+			return self.lifeTime[gen]
+		return self.state[gen]
 
 	def count_neighbors(self, x, y):
 		n = 0 # neighbor counter
@@ -214,17 +226,14 @@ class GoLT_generator():
 #	a: write animation sequence to "anim/"
 # 	esc: quit GoLTGen
 class GoLT_vis():
-	def __init__(self, gol, seed):
+	def __init__(self, gol, mode, map, mapMin, mapMax, seed):
 		self.seed = seed
 		self.gen = 0
 		self.gol = gol
+		self.mode = mode
 
 		plt.figure()
-		# change cmap, vmin & vmax to change the overall visual effect
-		# cmap can be any matplotlib color map, these include: viridis (<3), jet, grey, magma, turbo and many more
-		# vmin=0 is usually a good choice
-		# vmax should be between 1 and 255; go, play with it!
-		self.imgobj = plt.imshow(np.vstack(self.stacker(gol.state[-1])), cmap=cm.jet, vmin=0, vmax=200)
+		self.imgobj = plt.imshow(np.vstack(self.stacker(gol.state[-1])), cmap=map, vmin=mapMin, vmax=mapMax)
 		plt.gcf().canvas.mpl_connect('key_press_event', self.compute_event)
 		plt.ion()
 		plt.show()
@@ -237,7 +246,7 @@ class GoLT_vis():
 	def update_vis(self, gen = 0):
 		if gen != 0:
 			self.gen = gen
-		self.imgobj.set_data(self.stacker(self.gol.vis_helper(self.gen)))
+		self.imgobj.set_data(self.stacker(self.gol.vis_helper(self.gen, self.mode)))
 		plt.pause(0.0025)
 
 	def animator(self, fromGen, toGen, location):
@@ -255,6 +264,8 @@ class GoLT_vis():
 			self.gen += 1
 		if event.key == 'left':
 			self.gen -= 1
+		if event.key == 'm':
+			self.mode = self.mode ^ 1
 		if event.key == 'w':
 			plt.axis('off')
 			plt.savefig("out/" + str(gol.name) + "_SEED_" + str(self.seed) + "_GEN_" + str(self.gen) + "_" + str(datetime.now().strftime("%H%M%S")) + ".png", bbox_inches='tight', dpi=600)
@@ -269,7 +280,7 @@ class GoLT_vis():
 if __name__ == "__main__":
 	print("Init game")
 	gen = GoLT_generator(gameSize)
-	gameState = gen.square(25,25,48,48)
+	gameState = gen.square(5,5,8,8)
 	#gameState = gen.square(3,3,6,6)
 	#gameState = gen.random(gameSeed)
 	
@@ -277,7 +288,7 @@ if __name__ == "__main__":
 	gol = GoLT(gameState, next((item for item in gameRules if item['name'] == ruleKey), None), gameSize)
 
 	print("Init vis")
-	v = GoLT_vis(gol, gameSeed)
+	v = GoLT_vis(gol, gameVisMode, gameMap, gameMapMin, gameMapMax, gameSeed)
 	tStep = 0
 
 	print("Running game")
