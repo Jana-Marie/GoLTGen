@@ -25,8 +25,8 @@ from datetime import datetime
 '''
 
 gameSize = (50,50)
-gameTarget = 100
-gameSeed = 'nyaaa'
+gameTarget = 287
+gameSeed = 'nyaaaa'
 ruleKey = "gol" if len(sys.argv) <= 1 else sys.argv[1]
 gameRules = [
 	{
@@ -98,7 +98,7 @@ class GoLT:
 		self.survive = rules["survive"]
 		self.starve = rules["starve"]
 
-		self.lifeTime = np.zeros((self.sizeY, self.sizeX), dtype=int)
+		self.lifeTime = [np.zeros((self.sizeY, self.sizeX), dtype=int)]
 		self.startTime = time.time()
 
 	def step_timer(self):
@@ -113,7 +113,8 @@ class GoLT:
 			self.evaluate_step()
 		if gen <= 0:
 			gen = 0
-		return self.state[gen]
+		return self.lifeTime[gen]
+		#return self.state[gen]
 
 	def count_neighbors(self, x, y):
 		n = 0 # neighbor counter
@@ -141,6 +142,7 @@ class GoLT:
 		# This means that all generations will be stored and are always available.
 		# Thanks to the usually small games, not much storage is needed
 		newGameState = np.zeros((self.sizeY, self.sizeX), dtype=int)
+		newLifeTime = np.zeros((self.sizeY, self.sizeX), dtype=int)
 		
 		# iterate over all cells and apply rules to each of them
 		for iy in range(self.sizeY):
@@ -156,19 +158,20 @@ class GoLT:
 						newGameState[iy][ix] = 1
 
 				if self.state[-1][iy][ix] == 1 and newGameState[iy][ix] == 0:
-					if self.lifeTime[iy][ix] >= self.starve:
+					if self.lifeTime[-1][iy][ix] >= self.starve:
 						newGameState[iy][ix] = 0;
 					else:
 						newGameState[iy][ix] = 1;
 
 				if self.state[-1][iy][ix] == newGameState[iy][ix]:
-					self.lifeTime[iy][ix] += 1;
-					self.lifeTime[iy][ix] = 255 if self.lifeTime[iy][ix] >= 255 else self.lifeTime[iy][ix]
+					newLifeTime[iy][ix] = self.lifeTime[-1][iy][ix] + 1;
+					newLifeTime[iy][ix] = 255 if newLifeTime[iy][ix] >= 255 else newLifeTime[iy][ix]
 				else:
-					self.lifeTime[iy][ix] = 0;
+					newLifeTime[iy][ix] = 0;
 
 		# append the new generation :3
 		self.state.append(newGameState)
+		self.lifeTime.append(newLifeTime)
 		self.gameCount += 1
 		return
 
@@ -215,7 +218,7 @@ class GoLT_vis():
 		self.gol = gol
 
 		plt.figure()
-		self.imgobj = plt.imshow(np.vstack(self.stacker(gol.state[-1])), cmap = cm.gray) #cmap=plt.get_cmap('jet'), vmin=0, vmax=255) ?
+		self.imgobj = plt.imshow(np.vstack(self.stacker(gol.state[-1])), cmap = cm.jet, vmin=0, vmax=200)
 		plt.gcf().canvas.mpl_connect('key_press_event', self.compute_event)
 		plt.ion()
 		plt.show()
@@ -234,7 +237,9 @@ class GoLT_vis():
 	def animator(self, fromGen, toGen, location):
 		plt.axis('off')
 		for i in range(fromGen, toGen):
+			print("Animating: " + str(round(((i+1)/(toGen-fromGen)*100),2)) + "%  ", end='\r')
 			self.imgobj.set_data(self.stacker(self.gol.vis_helper(i)))
+			plt.pause(0.0001)
 			plt.savefig(location + "/" + str(gol.name) + "_SEED_" + str(self.seed) + "_GEN_" + str(i) + ".png", bbox_inches='tight', dpi=600)
 
 	def compute_event(self, event):
@@ -259,6 +264,8 @@ if __name__ == "__main__":
 	print("Init game")
 	gen = GoLT_generator(gameSize)
 	gameState = gen.square(25,25,48,48)
+	#gameState = gen.square(3,3,6,6)
+	#gameState = gen.random(gameSeed)
 	
 	print("Init GoLT")
 	gol = GoLT(gameState, next((item for item in gameRules if item['name'] == ruleKey), None), gameSize)
