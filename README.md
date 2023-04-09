@@ -14,6 +14,10 @@ Custom Game of Life alike cellular automaton with a flexible and extended set of
         <img src="media/maze_SEED_nyaaaa_GEN_125_213433.png"/>
       </td>
     </tr>
+  </tbody>
+</table>
+<table>
+  <tbody>
     <tr>
       <td>
         <img src="media/castle_SEED_nyaaa_GEN_10_204659.png"/>
