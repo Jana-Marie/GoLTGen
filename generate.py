@@ -24,7 +24,6 @@ from datetime import datetime
  Usage (other) python3 generate.py <name> or python3 generate.py
 '''
 
-destSize = (1920,1080)
 gameSize = (50,50)
 gameTarget = 100
 gameSeed = 'nyaaa'
