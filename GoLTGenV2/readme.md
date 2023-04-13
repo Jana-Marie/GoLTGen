@@ -1,6 +1,6 @@
 # GoLTGen Web
 
-GoLTGen Web is the successor of GoLTGen, a web based Game of Life alike cellular automaton with an even more extensive and flexible set of rules. The planned additional display modes, beatmatching and wonderful colormaps shall make this tool a fantastic visual feest.
+GoLTGen Web is the successor of GoLTGen, a web based Game of Life alike cellular automaton with an even more extensive and flexible set of rules. The planned additional display modes, beatmatching and wonderful colormaps shall make this tool a fantastic visual feast.
 
 ## Todos/Ideas
 
