@@ -1,0 +1,58 @@
+# GoLTGen Web
+
+## Todos/Ideas
+
+ - [ ] **Display**
+   - [ ] Add a neighborhood density display
+   - [ ] Choose from multiply displays
+   - [ ] Math operations on displays 
+   - [ ] Glow?
+   - [ ] Smoothness?
+ - [ ] **Color**
+   - [ ] Add colormaps
+     - [ ] viridis <3
+     - [ ] jet (</3)
+     - [ ] spring
+     - [ ] summer
+     - [ ] autumn
+     - [ ] winter
+     - [ ] grey
+     - [ ] bone
+     - [ ] cool
+     - [ ] pink
+     - [ ] hsv 
+   - [ ] Fade other colors in LAB space
+ - [ ]**Rules**
+   - [ ] Birth
+   - [ ] Survive
+   - [ ] Starve
+     - [ ] Starve jitter
+   - [ ] Age-death
+     - [ ] Age-death jitter
+   - [ ] Random spawn, zombies? (when there wasn't a cell for a long time. I don't like this idea too much tbh)
+   - [ ] Illness? (can very randomly spawn where plenty alive ones are and can spread)
+ - [ ] **Game**
+   - [ ] Stale detection
+   - [ ] Other grid shapes
+     - [ ] Square
+     - [ ] Triangle
+     - [ ] Hexagon
+     - [ ] Penrose
+     - [ ] Polar grid system
+       - [ ] Penrose
+       - [ ] Polar grid
+   - [ ] Music based game-speed
+     - [ ] Speed on music volume/beat
+     - [ ] Step on beat
+ - [ ] **User interface**
+  - [ ] Speed slider
+  - [ ] Seed text input
+  - [ ] Rules checkbox input
+  - [ ] Colormap(s) selector
+  - [ ] BPM input, Step on Beat and Beat modulated Speed
+  - [ ] Opt-In Cookies to save user input
+  - [ ] Game size, game scale (size of grid and how big it should be displayed)
+  - [ ] Repeat, Mirror, Stretch
+  - [ ] Movement of field? (like autonomous zoom or movement in x,y)
+  - [ ] Stale time
+  - [ ] Autopilot button, with speed awareness
