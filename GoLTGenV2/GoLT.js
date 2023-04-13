@@ -4,10 +4,10 @@
 
 var ruleSet = {
 	'name': "gol",
-	'survive': [1,2,3,4,5],
+	'survive': [2,3,4],
 	'birth': [3],
 	'starve': -1,
-	'naturalDeath': 90,
+	'naturalDeath': -1,
 };
 
 var config = {
@@ -91,28 +91,28 @@ function run_GoLT() {
 			}
 
 			// natural death rule
-			if (game[0][idx][x][y] == 1 && ruleSet.naturalDeath >= 0) {
-				if (game[1][idx][x][y] >= ruleSet.naturalDeath) {
-					game[0][idxNext][x][y] = 0;
-				}
-			}
+			//if (game[0][idx][x][y] == 1 && ruleSet.naturalDeath >= 0) {
+			//	if (game[1][idx][x][y] >= ruleSet.naturalDeath) {
+			//		game[0][idxNext][x][y] = 0;
+			//	}
+			//}
 
 			// starve rule
-			if (game[0][idx][x][y] == 1 && game[0][idxNext][x][y] == 0 && ruleSet.starve >= 0) {
-				if (game[1][idx][x][y] <= ruleSet.starve) {
-					game[0][idxNext][x][y] = 1;
-				}
-			}
+			//if (game[0][idx][x][y] == 1 && game[0][idxNext][x][y] == 0 && ruleSet.starve >= 0) {
+			//	if (game[1][idx][x][y] <= ruleSet.starve) {
+			//		game[0][idxNext][x][y] = 1;
+			//	}
+			//}
 
 			// lifetime counter
 			if (game[0][idx][x][y] == 1 && game[0][idxNext][x][y] == 1) {
 				game[1][idxNext][x][y] = game[1][idx][x][y] + 1;
-				game[1][idxNext][x][y] = game[1][idxNext][x][y] % 255;
+				game[1][idxNext][x][y] = game[1][idxNext][x][y] >= 255 ? 255 : game[1][idxNext][x][y];
 			} else {
 				game[1][idxNext][x][y] = 0;
 			}
 
-			ctx.fillStyle = colorMixer([253, 231, 37],[68, 1, 84], game[1][idx][x][y]/70);
+			ctx.fillStyle = colorMixer([253, 231, 37],[68, 1, 84], game[1][idx][x][y]/250);
 			ctx.fillRect(x*config.scaleFactor, y*config.scaleFactor, config.scaleFactor, config.scaleFactor);
 		}
 	}
