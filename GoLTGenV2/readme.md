@@ -22,6 +22,7 @@
      - [ ] pink
      - [ ] hsv 
    - [ ] Fade other colors in LAB space
+   - [ ] Make colormaps shiftable
  - [ ]**Rules**
    - [ ] Birth
    - [ ] Survive
@@ -45,14 +46,17 @@
      - [ ] Speed on music volume/beat
      - [ ] Step on beat
  - [ ] **User interface**
-  - [ ] Speed slider
-  - [ ] Seed text input
-  - [ ] Rules checkbox input
-  - [ ] Colormap(s) selector
-  - [ ] BPM input, Step on Beat and Beat modulated Speed
-  - [ ] Opt-In Cookies to save user input
-  - [ ] Game size, game scale (size of grid and how big it should be displayed)
-  - [ ] Repeat, Mirror, Stretch
-  - [ ] Movement of field? (like autonomous zoom or movement in x,y)
-  - [ ] Stale time
-  - [ ] Autopilot button, with speed awareness
+   - [ ] Make hideable for a full-screen experience
+   - [ ] Speed slider
+   - [ ] Seed text input
+   - [ ] Rules checkbox input
+   - [ ] Colormap(s) selector
+   - [ ] BPM input, Step on Beat and Beat modulated Speed
+   - [ ] Opt-In Cookies to save user input
+   - [ ] Game size, game scale (size of grid and how big it should be displayed)
+   - [ ] Repeat, Mirror, Stretch
+   - [ ] Movement of field? (like autonomous zoom or movement in x,y)
+   - [ ] Stale time
+   - [ ] Autopilot button, with speed awareness
+ - [ ] **Misc**
+   - [ ] Implement CCA when this is done ._.
