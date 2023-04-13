@@ -131,9 +131,10 @@ function main() {
 }
 
 function getPixel(x, y) {
+    const offset = (x*window.board_width + y)*4;
     return {
-        active: window.board[x*window.board_width + y] > 0,
-        age: window.board[x*window.board_width + y],
-        neighbours: Math.round(window.board[x*window.board_width + y]*8/255),
+        active: window.board[offset] > 0,
+        age: window.board[offset + 1],
+        neighbours: Math.round(window.board[offset + 2]*8/255),
     }
 }
