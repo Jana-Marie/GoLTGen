@@ -58,5 +58,6 @@
    - [ ] Movement of field? (like autonomous zoom or movement in x,y)
    - [ ] Stale time
    - [ ] Autopilot button, with speed awareness
+   - [ ] Allow user to "draw" pixels (should be fun on a touchscreen)
  - [ ] **Misc**
    - [ ] Implement CCA when this is done ._.
