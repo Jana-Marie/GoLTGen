@@ -1,5 +1,11 @@
+# GoLTGen Web
+
+## Todos/Ideas
+
+ **Display**
  - [ ] Add a neighborhood density display
- - [ ] Multiply displays
+ - [ ] Choose from multiply displays
+ - [ ] Math operations on displays
  - [ ] Fade in LAB space
  - [ ] Rules
   - [ ] Birth
