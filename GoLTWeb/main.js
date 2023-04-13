@@ -1,14 +1,34 @@
+function canvas_click(e) {
+    console.log(e);
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const board_x = Math.floor(x / rect.width * window.board_width);
+    const board_y = Math.floor(y / rect.height * window.board_height);
+    const info = getPixel(board_x, board_y);
+    document.getElementById('info').innerHTML = `
+        x: ${board_x}, 
+        y: ${board_y}, 
+        active: ${info.active ? 'yes' : 'no'},
+        age: ${info.age},
+        neighbours: ${info.neighbours}`;
+}
+
+
 function main() {
     const width = 50;
     const height = 50;
+    window.board_width = width;
+    window.board_height = height;
 
     const pixels = createSeed(width, height);
 
     const canvas = document.querySelector("canvas");
+    canvas.onclick = canvas_click;
     // resizeCanvasToDisplaySize(canvas);
     canvas.width = width;
     canvas.height = height;
-    const gl = canvas.getContext('webgl2');
+    const gl = canvas.getContext('webgl2', {antialias: false});
 
     const program = createProgram(gl, window.vertexShader, window.fragmentShader);
 
@@ -78,12 +98,42 @@ function main() {
     // console.log(pixels);
 
 
-    window.setInterval(() => {
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
-        gl.drawArrays(gl.TRIANGLES, 0, 6);
-        gl.readPixels(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
-        console.log(pixels);
-    }, 1000);
+    const stack = [pixels];
 
+    const next = () => {
+        const current_board = stack[stack.length - 1];
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, current_board);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        const new_board = new Uint8Array(width * height * 4);
+        gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, new_board);
+        stack.push(new_board);
+        window.board = new_board;
+    };
+
+    const prev = () => {
+        stack.pop();
+        stack.pop();
+        next();
+    };
+
+    window.next = next;
+    window.prev = prev;
+
+    let interval = null;
+
+    window.play = () => {
+        interval = window.setInterval(() => next(), 200);
+    }
+    window.pause = () => {
+        window.clearInterval(interval);
+    }
+}
+
+function getPixel(x, y) {
+    return {
+        active: window.board[x*window.board_width + y] > 0,
+        age: window.board[x*window.board_width + y],
+        neighbours: Math.round(window.board[x*window.board_width + y]*8/255),
+    }
 }

@@ -1,10 +1,17 @@
 <!doctype html>
 <html>
 <head>
-<title>webgl compute shader</title>
+<title>GoLT with WebGL shader</title>
 </head>
 <body>
-<canvas style="width: 400px; height: 400px;"></canvas>
+<div>
+  <button onclick="prev()">prev</button>
+  <button onclick="next()">next</button>
+  <button onclick="play()">play</button>
+  <button onclick="pause()">pause</button>
+  <div id="info">&nbsp;</div>
+</div>
+<canvas style="width: 400px; height: 400px; image-rendering: pixelated"></canvas>
 
 <script src="utils.js"></script>
 <script src="shader.js"></script>

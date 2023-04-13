@@ -43,8 +43,8 @@ void main() {
 	// survive: 1,2,3,4,5
 	// birth: 3
 	int neighbours = 0;
-	for(int x = 0; x < 3; x ++) {
-		for (int y = 0; y < 3; y++) {
+	for(int x = -1; x < 2; x ++) {
+		for (int y = -1; y < 2; y++) {
 			if (x != y) {
 				vec4 value = texelFetch(u_image, ivec2(v_texCoord.x + float(x), v_texCoord.y + float(y)), 0);
 				if (value.r > 0.0) {
@@ -71,6 +71,6 @@ void main() {
 		}
 	}
 
-	outputColor = vec4(alive, float(age)/255.0, 0, 1);
+	outputColor = vec4(alive, float(age)/255.0, float(neighbours)/8.0, 1);
 }
 `;
