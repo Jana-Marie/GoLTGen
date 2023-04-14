@@ -5,21 +5,94 @@
 </head>
 <body>
 <div>
-  <button onclick="prev()">prev</button>
-  <button onclick="next()">next</button>
-  <button onclick="play()">play</button>
-  <button onclick="pause()">pause</button>
+  <button id="prev">prev</button>
+  <button id="next">next</button>
+  <input id="interval" type="number" style="width: 60px" value="50" />
+  <span id="timer" style="width: 120px; display: inline-block;">&nbsp;</span>
+  <button id="play">play</button>
+  <button id="pause">pause</button>
+  <span id="generation">&nbsp;</span>
+ <!--  <label>
+    <input id="render-active" type="checkbox" checked autocomplete="off"> active
+  </label>
+  <label>
+    <input id="render-age" type="checkbox" checked autocomplete="off"> age
+  </label>
+  <label>
+    <input id="render-neighbours" type="checkbox" checked autocomplete="off"> neighbours
+  </label> -->
   <div id="info">&nbsp;</div>
 </div>
 <canvas style="width: 400px; height: 400px; image-rendering: pixelated"></canvas>
 
 <script src="utils.js"></script>
-<script src="shader.js"></script>
-<script src="main.js"></script>
+<script src="debug-viewer.js"></script>
+<script src="viewer.js"></script>
+<script src="viridis.js"></script>
+<script src="ca.js"></script>
 
 
 <script>
-  window.onload = main;
+  function squareSeed(board, width, height) {
+    for(let i = 5; i < height - 5; i++) {
+      for (let j = 5; j < width - 5; j++) {
+        board[(i*width+j)*4] = 255;
+      }
+    }
+  }
+
+  function randomSeed(density) {
+    return function(board, width, height) {
+      for (let i = 0; i < height; i++) {
+        for (let j = 0; j < width; j++) {
+          if (Math.random() < density) {
+            board[(i*width+j)*4] = 255;
+          }
+        }
+      }
+    }
+  }
+
+
+  window.onload = function() {
+    const canvas = document.querySelector('canvas');
+    const ca = new CellularAutomaton(100, 100, [1,2,3,4,5], [3], 25, 20, squareSeed);
+    const viewer = new Viewer(canvas, ca, colormap_viridis);
+    // const viewer = new Viewer(canvas, ca, (val) => [val, 0, 0, 255]);
+
+    const generationCount = document.querySelector('#generation');
+    ca.onGenerationChanged = (generation) => {
+      generationCount.innerHTML = generation;
+      const avg = Math.round(viewer.total_duration/generation);
+      timer.innerHTML = `${viewer.last_render_duration} (${avg})`;
+    };
+
+    const interval = document.querySelector('#interval');
+
+    window.viewer = viewer;
+    viewer.render();
+    document.querySelector('#prev').onclick = () => viewer.prev();
+    document.querySelector('#next').onclick = () => viewer.next();
+    document.querySelector('#play').onclick = () => viewer.play(parseInt(interval.value));
+    document.querySelector('#pause').onclick = () => viewer.pause();
+    // document.querySelector('#render-active').onchange = (e) => viewer.setRenderActive(e.target.checked);
+    // document.querySelector('#render-age').onchange = (e) => viewer.setRenderAge(e.target.checked);
+    // document.querySelector('#render-neighbours').onchange = (e) => viewer.setRenderNeighbours(e.target.checked);
+    canvas.onclick = (e) => {
+      const rect = e.target.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const board_x = Math.floor(x / rect.width * ca.width);
+      const board_y = Math.floor(y / rect.height * ca.height);
+      const info = ca.getCell(board_x, board_y);
+      document.getElementById('info').innerHTML = `
+          x: ${board_x}, 
+          y: ${board_y}, 
+          active: ${info.active ? 'yes' : 'no'},
+          age: ${info.age},
+          neighbours: ${info.neighbours}`;
+    }
+  }
 </script>
 
 </body>
