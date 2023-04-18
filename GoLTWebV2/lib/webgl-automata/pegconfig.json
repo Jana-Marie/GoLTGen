@@ -1,0 +1,10 @@
+{
+  "input": "grammar.pegjs",
+  "output": "src/parser_generated.ts",
+  "allowedStartRules": ["expression", "program"],
+  "format": "es",
+  "plugins": ["./node_modules/ts-pegjs/dist/tspegjs.js"],
+  "tspegjs": {
+    "skipTypeComputation": true
+  }
+}

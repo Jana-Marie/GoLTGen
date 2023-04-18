@@ -1,0 +1,25 @@
+{
+  "name": "webgl-automata",
+  "version": "1.0.0",
+  "description": "compute cellular automata in webgl shaders",
+  "main": "index.ts",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/estree": "^1.0.0",
+    "@types/tern": "^0.23.4",
+    "peggy": "^3.0.2",
+    "ts-pegjs": "^4.1.0",
+    "typescript": "^5.0.4"
+  },
+  "scripts": {
+    "build": "tsc",
+    "run": "node build/complex-shader.js",
+    "parser": "peggy --extra-options-file pegconfig.json"
+  },
+  "type": "module",
+  "dependencies": {
+    "acorn": "^8.8.2",
+    "flow-parser": "^0.204.0",
+    "tern": "^0.24.3"
+  }
+}
