@@ -46,9 +46,8 @@ void main() {
 }
 `;
 
-
 class Viewer {
-	constructor(canvas, ca, colormap) {
+	constructor(canvas, ca, colormap, reverse, minage=0, maxage=255) {
 		this.canvas = canvas;
 		canvas.width = ca.width;
 		canvas.height = ca.height;
@@ -95,7 +94,6 @@ class Viewer {
 	   gl.uniform1i(locations.imageTex, 0);
 	   gl.uniform1i(locations.colormapTex, 1);
 
-
 		const imageTexture = gl.createTexture();
 	   this.texture = imageTexture;
 		gl.activeTexture(gl.TEXTURE0);
@@ -106,8 +104,7 @@ class Viewer {
 	   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 	   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, this.ca.width, this.ca.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, this.ca.getCurrentBoard());
 
-	   const colormap_converted = this.convertColormap(colormap);
-	   console.log(colormap_converted);
+	   const colormap_converted = this.convertColormap(colormap, reverse, minage, maxage);
 	   const colormapTexture = gl.createTexture();
 		gl.activeTexture(gl.TEXTURE1);
 	   gl.bindTexture(gl.TEXTURE_2D, colormapTexture);
@@ -117,8 +114,7 @@ class Viewer {
 	   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 	   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, colormap_converted.length / 4, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, colormap_converted);
 
-
-	   gl.viewport(0, 0, this.ca.width, this.ca.height);
+	   gl.viewport(0, 0, canvas.width, canvas.height);
 	   gl.clearColor(0, 0, 0, 0);
 	   gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -185,7 +181,7 @@ class Viewer {
 		}
 	}
 
-	convertColormap(colormap) {
+	convertColormap(colormap, reverse, minage, maxage) {
 		if (colormap instanceof Uint8Array) {
 			return colormap;
 		}
@@ -210,6 +206,17 @@ class Viewer {
 				arr[i*4+1] = color[1];
 				arr[i*4+2] = color[2];
 				arr[i*4+3] = color[3];
+			}
+			return arr;
+		} else if (typeof colormap === "string") {
+			const arr = new Uint8Array(256 * 4);
+			for(let i = 0; i < 256; i++) {
+				//console.log((1.0/255.0*i.clamp(minage,maxage))) working, but inverse
+				const color = evaluate_cmap(((i > minage ? (i < maxage ? (i-minage) : 255) : 0)/255).clamp(0,1), colormap, reverse);
+				arr[i*4] = color[0];
+				arr[i*4+1] = color[1];
+				arr[i*4+2] = color[2];
+				arr[i*4+3] = 255;
 			}
 			return arr;
 		}
