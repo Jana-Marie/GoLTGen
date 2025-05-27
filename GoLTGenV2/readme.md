@@ -25,7 +25,7 @@ GoLTGen Web is the successor of GoLTGen, a web based Game of Life alike cellular
      - [ ] hsv 
    - [ ] Fade other colors in LAB space
    - [ ] Make colormaps shiftable
- - [ ]**Rules**
+ - [ ] **Rules**
    - [ ] Birth
    - [ ] Survive
    - [ ] Starve
