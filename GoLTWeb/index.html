@@ -107,6 +107,14 @@
       </select>&nbsp;&nbsp;
     </span>
     <span>Reverse? <input id="reverse" style="width: 15px; height: 15px;" type="checkbox">&nbsp;&nbsp;</span>
+    <span>Start Condition:
+      <select id="startcondition" style="width: 90px">
+        <option value="randomSeed">Random</option>
+        <option value="rectSeed">Rectangle</option>
+        <option value="squareSeed">Square</option>
+      </select>&nbsp;&nbsp;
+    </span>
+    <span>Modulator: <input id="mod" type="number" style="width: 40px" value="5"/>&nbsp;&nbsp;</span>
     <br>
     <br>
     <button id="creategame">Create Game</button>
@@ -139,26 +147,37 @@
   <script src="ca.js"></script>
 
   <script>
-    function squareSeed(board, width, height) {
-      for(let i = 5; i < height - 5; i++) {
-        for (let j = 5; j < width - 5; j++) {
+    function rectSeed(board, width, height, mod) {
+      for(let i = mod; i < height - mod; i++) {
+        for (let j = mod; j < width - mod; j++) {
           board[(i*width+j)*4] = 255;
         }
       }
     }
 
-    function randomSeed(density) {
-      return function(board, width, height) {
-        for (let i = 0; i < height; i++) {
-          for (let j = 0; j < width; j++) {
-            if (Math.random() < density) {
-              board[(i*width+j)*4] = 255;
-            }
-          }
+    function squareSeed(board, width, height, mod) {
+      mod = Math.max(mod, 0);
+      midX = width/2;
+      midY = height/2;
+      for(let i = midY-mod; i < midY+mod; i++) {
+        for (let j = midX-mod; j < midX+mod; j++) {
+          board[(i*width+j)*4] = 255;
         }
       }
     }
 
+    function randomSeed(board, width, height, mod) {
+      mod = Math.max(mod, 0);
+      mod = Math.min(mod, 100);
+      for (let i = 0; i < height; i++) {
+        for (let j = 0; j < width; j++) {
+          if (Math.random() < mod/100) {
+            board[(i*width+j)*4] = 255;
+          }
+        }
+      }
+    }
+    
 
     window.onload = function() {
       const canvas = document.querySelector('canvas');
@@ -179,9 +198,13 @@
         const colormap = document.querySelector('#colormap').value;
         const reverse = document.querySelector('#reverse').value === "on" ? true : false;
 
+        const startcondition = document.querySelector('#startcondition').value;
+        console.log(startcondition)
+        const mod = document.querySelector('#mod').value;
+
         const offscreen = new OffscreenCanvas(x, y);
 
-        const ca = new CellularAutomaton(x, y, birth, death, ndeath, 20, squareSeed);
+        const ca = new CellularAutomaton(x, y, birth, death, ndeath, 20, eval(startcondition), mod);
         const viewer = new Viewer(offscreen, ca, colormap, reverse, mx, my, 0, 255);
 
         // const viewer = new Viewer(canvas, ca, (val) => [val, 0, 0, 255]);
@@ -210,7 +233,7 @@
       // document.querySelector('#render-active').onchange = (e) => viewer.setRenderActive(e.target.checked);
       // document.querySelector('#render-age').onchange = (e) => viewer.setRenderAge(e.target.checked);
       // document.querySelector('#render-neighbours').onchange = (e) => viewer.setRenderNeighbours(e.target.checked);
-
+      /*
       canvas.onclick = (e) => {
         const rect = e.target.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -225,6 +248,7 @@
             age: ${info.age},
             neighbours: ${info.neighbours}`;
       }
+      */
     }
   </script>
 </body>

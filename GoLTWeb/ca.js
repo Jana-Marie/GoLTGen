@@ -95,7 +95,7 @@ void main() {
 
 
 class CellularAutomaton {
-	constructor(width, height, survive, birth, naturalDeath, historyCount, seedFn) {
+	constructor(width, height, survive, birth, naturalDeath, historyCount, seedFn, modulator) {
 		this.historyCount = Math.max(historyCount, 1);
 		this.width = width;
 		this.height = height;
@@ -163,7 +163,7 @@ class CellularAutomaton {
 	    gl.uniform2f(locations.resolution, width, height);
 
 	    const initial_state = new Uint8Array(this.width * this.height * 4);
-	    seedFn(initial_state, width, height);
+	    seedFn(initial_state, width, height, modulator);
 	    this.history = [initial_state];
 	    this.current_board = initial_state;
 		this.current_generation = 0;
