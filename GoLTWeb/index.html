@@ -137,13 +137,14 @@
       <input id="render-neighbours" type="checkbox" checked autocomplete="off"> neighbours
     </label> -->
     <div id="info">&nbsp;</div>
+    <br>
+    <span style="font-size: 14px;">press <kbd>h</kbd> to hide this menu </span>
   </div>
 
   <script src="utils.js"></script>
   <script src="js-colormaps.js"></script>
   <script src="debug-viewer.js"></script>
   <script src="viewer.js"></script>
-  <!-- <script src="viridis.js"></script> -->
   <script src="ca.js"></script>
 
   <script>
@@ -181,6 +182,7 @@
 
     window.onload = function() {
       const canvas = document.querySelector('canvas');
+      let playing = false;
 
       document.querySelector('#creategame').onclick = () => {
         const x = document.querySelector('#xresolution').value;
@@ -204,7 +206,7 @@
 
         const offscreen = new OffscreenCanvas(x, y);
 
-        const ca = new CellularAutomaton(x, y, birth, death, ndeath, 20, eval(startcondition), mod);
+        const ca = new CellularAutomaton(x, y, birth, death, ndeath, 40, eval(startcondition), mod);
         const viewer = new Viewer(offscreen, ca, colormap, reverse, mx, my, 0, 255);
 
         // const viewer = new Viewer(canvas, ca, (val) => [val, 0, 0, 255]);
@@ -227,8 +229,39 @@
 
       document.querySelector('#prev').onclick = () => viewer.prev();
       document.querySelector('#next').onclick = () => viewer.next();
-      document.querySelector('#play').onclick = () => viewer.play(parseInt(interval.value));
-      document.querySelector('#pause').onclick = () => viewer.pause();
+      document.querySelector('#play').onclick = () => {
+        playing = true;
+        viewer.play(parseInt(interval.value));
+      }
+      document.querySelector('#pause').onclick = () => {
+        playing = false;
+        viewer.pause();
+      }
+
+      window.onkeydown = function(event) {
+        if (event.keyCode == 32) {
+          event.preventDefault();
+          if(document.getElementById("settings").style.display===""){
+            document.querySelector('#creategame').click();
+          } else {
+            if(playing===false){
+              document.querySelector('#play').click();
+            } else {
+              document.querySelector('#pause').click(); 
+            }
+          }
+        } else if (event.keyCode == 37) {
+          document.querySelector('#prev').click()
+        } else if (event.keyCode == 39) {
+          document.querySelector('#next').click()
+        }else if (event.keyCode == 72) {
+          if(document.getElementById("info").style.display==="block"){
+            document.getElementById("info").style.display="none"
+          } else {
+            document.getElementById("info").style.display="block"
+          }
+        };
+      };
       
       // document.querySelector('#render-active').onchange = (e) => viewer.setRenderActive(e.target.checked);
       // document.querySelector('#render-age').onchange = (e) => viewer.setRenderAge(e.target.checked);
