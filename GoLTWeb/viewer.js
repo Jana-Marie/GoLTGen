@@ -47,12 +47,13 @@ void main() {
 `;
 
 class Viewer {
-	constructor(canvas, ca, colormap, reverse, minage=0, maxage=255) {
+	constructor(canvas, ca, colormap, reverse, mulx=1, muly=1, minage=0, maxage=255) {
 		this.canvas = canvas;
 		canvas.width = ca.width;
 		canvas.height = ca.height;
 		this.ca = ca;
-
+		this.mulx = mulx;
+		this.muly = muly;
 
 		const gl = canvas.getContext('webgl2', {antialias: false});
 		this.gl = gl;
@@ -140,6 +141,21 @@ class Viewer {
 		const board = this.ca.getCurrentBoard();
 		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, this.ca.width, this.ca.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, board);
 		gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+		// probably very very inefficient and not the correct way to create an array here
+		const canvas = document.querySelector('canvas');
+		const pCtx = canvas.getContext("2d");
+		  
+		const ctx = this.canvas.getContext("2d");
+
+		canvas.width = this.canvas.width*this.mulx;
+		canvas.height = this.canvas.height*this.muly;
+
+		var pat = pCtx.createPattern(this.canvas, 'repeat');
+		pCtx.rect(0, 0, canvas.width, canvas.height);
+		pCtx.fillStyle = pat;
+		pCtx.fill();
+
 		const now = performance.now();
 		this.last_render_duration = now - this.last_render;
 		this.last_render = now;

@@ -81,9 +81,8 @@
 
     window.onload = function() {
       const canvas = document.querySelector('canvas');
-      
-      document.querySelector('#creategame').onclick = () => {
 
+      document.querySelector('#creategame').onclick = () => {
         const x = document.querySelector('#xresolution').value;
         const y = document.querySelector('#yresolution').value;
         const mx = document.querySelector('#xmult').value;
@@ -99,8 +98,10 @@
         const colormap = document.querySelector('#colormap').value;
         const reverse = document.querySelector('#reverse').value === "on" ? true : false;
 
+        const offscreen = new OffscreenCanvas(x, y);
+
         const ca = new CellularAutomaton(x, y, birth, death, ndeath, 20, squareSeed);
-        const viewer = new Viewer(canvas, ca, colormap, reverse, 0, 255);
+        const viewer = new Viewer(offscreen, ca, colormap, reverse, mx, my, 0, 255);
 
         // const viewer = new Viewer(canvas, ca, (val) => [val, 0, 0, 255]);
 
