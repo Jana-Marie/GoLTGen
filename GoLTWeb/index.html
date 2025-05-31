@@ -9,33 +9,63 @@
   <canvas></canvas>
 
   <div class="control" id="settings">
-    <span><b>Board: </b></span>
-    <span>Size X: <input id="xresolution" type="number" style="width: 50px" value="192"/> px&nbsp;&nbsp;</span>
-    <span>Size Y: <input id="yresolution" type="number" style="width: 50px" value="108"/> px&nbsp;&nbsp;</span>
-    <span>Array X: <input id="xmult" type="number" style="width: 40px" value="1"/>&nbsp;&nbsp;</span>
-    <span>Array Y: <input id="ymult" type="number" style="width: 40px" value="1"/>&nbsp;&nbsp;</span>
+    <span><b>Board:&nbsp;</b></span>
+    <span>Size X:&nbsp;
+      <input id="xresolution" type="number" style="width: 50px" value="192" placeholder="192"/>
+      &nbsp;px&nbsp;&nbsp;
+    </span>
+    <span>Size Y:&nbsp;
+      <input id="yresolution" type="number" style="width: 50px" value="108" placeholder="108"/>
+      &nbsp;px&nbsp;&nbsp;
+    </span>
+    <span>Array X:&nbsp;
+      <input id="xmult" type="number" style="width: 40px" value="1" placeholder="1"/>
+      &nbsp;&nbsp;
+    </span>
+    <span>Array Y:&nbsp;
+      <input id="ymult" type="number" style="width: 40px" value="1" placeholder="1"/>
+      &nbsp;&nbsp;
+    </span>
     <br>
-    <span><b>Game: </b></span>
-    <span>Speed: <input id="interval" type="number" style="width: 40px" value="50"/> ms per Frame&nbsp;&nbsp;</span>
+    <span><b>Game:&nbsp;</b></span>
+    <span>Speed:&nbsp;
+      <input id="interval" type="number" style="width: 40px" value="50" placeholder="50"/>
+      &nbsp;ms&nbsp;per&nbsp;Frame&nbsp;&nbsp;
+    </span>
     <br>
-    <span><b>Start Condition: </b></span>
+    <span><b>Start Condition:&nbsp;</b></span>
     <span>
       <select id="startCondition" style="width: 90px">
-        <option value="randomSeed">Random</option>
-        <option value="rectSeed">Rectangle</option>
         <option value="squareSeed">Square</option>
-      </select>&nbsp;&nbsp;
+        <option value="rectSeed">Rectangle</option>
+        <option value="circleSeed">Circle</option>
+        <option value="crossSeed">Cross</option>
+        <option value="randomSeed">Random</option>
+      </select>
+      &nbsp;&nbsp;
     </span>
-    <span>Modulator: <input id="mod" type="number" style="width: 40px" value="5"/>&nbsp;&nbsp;</span>
+    <span>Modulator:&nbsp;
+      <input id="mod" type="number" style="width: 40px" value="5" placeholder="5"/>
+      &nbsp;&nbsp;
+    </span>
     <br>
-    <span><b>Rules: </b></span>
-    <span>Birth at: <input id="birth" type="string" style="width: 90px" value="1, 2, 3, 4, 5"/>&nbsp;&nbsp;</span>
-    <span>Death at: <input id="death" type="string" style="width: 90px" value="3"/>&nbsp;&nbsp;</span>
-    <span>Natural Death at: <input id="ndeath" type="number" style="width: 60px" value="50"/>&nbsp;&nbsp;</span>
+    <span><b>Rules:&nbsp;</b></span>
+    <span>Survive:&nbsp;
+      <input id="survive" type="string" style="width: 90px" value="1, 2, 3, 4, 5" placeholder="1-9"/>
+      &nbsp;&nbsp;
+    </span>
+    <span>Birth:&nbsp;
+      <input id="birth" type="string" style="width: 90px" value="3" placeholder="1-9"/>
+      &nbsp;&nbsp;
+    </span>
+    <span>Natural&nbsp;Death&nbsp;at:&nbsp;
+      <input id="ndeath" type="number" style="width: 60px" value="200" placeholder="0-255"/>
+      &nbsp;iterations&nbsp;&nbsp;
+    </span>
     <br>
-    <span><b>Colors: </b></span>
+    <span><b>Colors:&nbsp;</b></span>
     <span>Palette:
-      <select id="colormap" style="width: 90px">
+      <select id="colormap" style="width: 120px">
         <option value=Accent>Accent</option>
         <option value=Blues>Blues</option>
         <option value=BrBG>BrBG</option>
@@ -121,11 +151,20 @@
         <option value=winter>winter</option>
       </select>&nbsp;&nbsp;
     </span>
-    <span>Reverse <input id="reverse" style="width: 15px; height: 15px;" type="checkbox"/>&nbsp;&nbsp;</span>
-    <span>Start (age): <input id="colorStart" type="number" style="width: 50px" value="0"/>&nbsp;&nbsp;</span>
-    <span>Stop (age): <input id="colorStop" type="number" style="width: 50px" value="255"/>&nbsp;&nbsp;</span>
-    <br>
-    <br>
+    <span>Reverse:&nbsp;
+      <input id="reverse" style="width: 15px; height: 15px;" type="checkbox" checked/>
+      &nbsp;&nbsp;
+    </span>
+    <span>Start (age):&nbsp;
+      <input id="colorStart" type="number" style="width: 50px" value="0" placeholder="0"/>
+      &nbsp;%&nbsp;&nbsp;
+    </span>
+    <span><b><</b>&nbsp;&nbsp;</span>
+    <span>Stop (age):&nbsp;
+      <input id="colorStop" type="number" style="width: 50px" value="100" placeholder="100"/>
+      &nbsp;%&nbsp;&nbsp;
+    </span>
+    <br style="margin-top:15px;">
     <button id="createGame">Create Game</button>
   </div>
    
@@ -158,20 +197,61 @@
 
   <script>
     function rectSeed(board, width, height, mod) {
-      for(let i = mod; i < height - mod; i++) {
-        for (let j = mod; j < width - mod; j++) {
+      mod = Math.round(Math.max((mod/2), 0));
+      a = width/height;
+      if(a > 1){
+        w = mod;
+        h = Math.round(mod*a);
+      } else {
+        w = Math.round(mod*a);
+        h = mod;
+      }
+      midX = width/2;
+      midY = height/2;
+      for(let i = midY-h; i < midY+h; i++) {
+        for (let j = midX-w; j < midX+w; j++) {
           board[(i*width+j)*4] = 255;
         }
       }
     }
 
     function squareSeed(board, width, height, mod) {
-      mod = Math.max(mod, 0);
+      mod = Math.round(Math.max((mod/2), 0));
       midX = width/2;
       midY = height/2;
       for(let i = midY-mod; i < midY+mod; i++) {
         for (let j = midX-mod; j < midX+mod; j++) {
           board[(i*width+j)*4] = 255;
+        }
+      }
+    }
+
+    function crossSeed(board, width, height, mod) {
+      mod = Math.round(Math.max((mod/2), 0));
+      midX = width/2;
+      midY = height/2;
+      for(let i = midY-Math.round(mod/2); i < midY+Math.round(mod/2); i++) {
+        for (let j = midX-(mod*2); j < midX+(mod*2); j++) {
+          board[(i*width+j)*4] = 255;
+        }
+      }
+      for(let i = midY-(mod*2); i < midY+(mod*2); i++) {
+        for (let j = midX-Math.round(mod/2); j < midX+Math.round(mod/2); j++) {
+          board[(i*width+j)*4] = 255;
+        }
+      }
+    }
+
+    function circleSeed(board, width, height, mod) {
+      mod = Math.max((mod), 0);
+      midX = width/2;
+      midY = height/2;
+      sq = (mod) ** 2 + (mod) ** 2;
+      for (let i = 0; i < height; i++) {
+        for (let j = 0; j < width; j++) {
+          if(Math.abs(((midY - i) ** 2 + (midX - j) ** 2) < sq)) {
+            board[(i*width+j)*4] = 255;
+          }
         }
       }
     }
@@ -202,22 +282,23 @@
         const birth = document.querySelector('#birth').value.split(',').map(function(item) {
             return parseInt(item, 10);
         });
-        const death = document.querySelector('#death').value.split(',').map(function(item) {
+        const survive = document.querySelector('#survive').value.split(',').map(function(item) {
             return parseInt(item, 10);
         });
-        const ndeath = document.querySelector('#ndeath').value;
+        const ndeath = Math.max(Math.min(document.querySelector('#ndeath').value, 255), 0);
+
         const colormap = document.querySelector('#colormap').value;
         const reverse = document.querySelector('#reverse').checked;
 
         const startCondition = document.querySelector('#startCondition').value;
         const mod = document.querySelector('#mod').value;
 
-        const colorStart = document.querySelector('#colorStart').value;
-        const colorStop = document.querySelector('#colorStop').value;
+        const colorStart = Math.max(document.querySelector('#colorStart').value*2.55, 0);
+        const colorStop = Math.min(document.querySelector('#colorStop').value*2.55, 255);
 
         const offscreen = new OffscreenCanvas(x, y);
 
-        const ca = new CellularAutomaton(x, y, birth, death, ndeath, 40, eval(startCondition), mod);
+        const ca = new CellularAutomaton(x, y, survive, birth, ndeath, 40, eval(startCondition), mod);
         const viewer = new Viewer(offscreen, ca, colormap, reverse, mx, my, colorStart, colorStop);
 
         // const viewer = new Viewer(canvas, ca, (val) => [val, 0, 0, 255]);
