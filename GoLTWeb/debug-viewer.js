@@ -57,8 +57,9 @@ void main() {
 
 
 class DebugViewer {
-	constructor(canvas, ca) {
+	constructor(canvas, offscreen, ca) {
 		this.canvas = canvas;
+		this.offscreen = offscreen;
 		canvas.width = ca.width;
 		canvas.height = ca.height;
 		this.ca = ca;
@@ -66,7 +67,9 @@ class DebugViewer {
 		this.renderAge = true;
 		this.renderNeighbours = true;
 
+
 		const gl = canvas.getContext('webgl2', {antialias: false});
+		this.ctx = ctx;
 		this.gl = gl;
 		const program = createProgram(gl, debug_viewer_vertex_shader, debug_viewer_fragment_shader);
 		const locations = {
@@ -127,7 +130,7 @@ class DebugViewer {
 
 	render() {
 		const gl = this.gl;
-	    gl.uniform3i(this.locations.parts, 
+	   gl.uniform3i(this.locations.parts, 
 	    	this.renderActive ? 1 : 0,
 	    	this.renderAge ? 1 : 0,
 	    	this.renderNeighbours ? 1 : 0,

@@ -6,7 +6,8 @@
 </head>
 <body>
 
-  <canvas></canvas>
+  <canvas id="game"></canvas>
+<!-- <canvas id="debug"></canvas> -->
 
   <div class="control" id="settings">
     <h2>GoLTGen-Web</h2>
@@ -188,7 +189,8 @@
     <button id="next">next</button>
     <span id="timer" style="width: 120px; display: inline-block;">&nbsp;</span>
     <span id="generation">&nbsp;</span>
-   <!--  <label>
+<!--
+   <label>
       <input id="render-active" type="checkbox" checked autocomplete="off"> active
     </label>
     <label>
@@ -196,7 +198,8 @@
     </label>
     <label>
       <input id="render-neighbours" type="checkbox" checked autocomplete="off"> neighbours
-    </label> -->
+    </label>
+-->
     <div id="info">&nbsp;</div>
     <br>
     <span style="font-size: 14px;">press <kbd>h</kbd> to hide this menu </span>
@@ -207,13 +210,10 @@
   <script src="debug-viewer.js"></script>
   <script src="viewer.js"></script>
   <script src="ca.js"></script>
-
   <script>
-
-    
-
     window.onload = function() {
-      const canvas = document.querySelector('canvas');
+      const canvas = document.querySelector('#game');
+      //const debug = document.querySelector('#debug');
       let playing = false;
 
       document.querySelector('#createGame').onclick = () => {
@@ -244,7 +244,7 @@
         const ca = new CellularAutomaton(x, y, survive, birth, ndeath, 40, eval(startCondition), mod);
         const viewer = new Viewer(offscreen, ca, colormap, reverse, mx, my, colorStart, colorStop);
 
-        // const viewer = new Viewer(canvas, ca, (val) => [val, 0, 0, 255]);
+        //const dbgViewer = new DebugViewer(debug, offscreen, ca);
 
         const generationCount = document.querySelector('#generation');
         ca.onGenerationChanged = (generation) => {
@@ -257,6 +257,9 @@
 
         window.viewer = viewer;
         viewer.render();
+
+        //window.dbgViewer = dbgViewer;
+        //dbgViewer.render();
 
         document.getElementById("settings").style.display="none";
         document.getElementById("info").style.display="block";
@@ -298,9 +301,9 @@
         };
       };
       
-      // document.querySelector('#render-active').onchange = (e) => viewer.setRenderActive(e.target.checked);
-      // document.querySelector('#render-age').onchange = (e) => viewer.setRenderAge(e.target.checked);
-      // document.querySelector('#render-neighbours').onchange = (e) => viewer.setRenderNeighbours(e.target.checked);
+      //document.querySelector('#render-active').onchange = (e) => viewer.setRenderActive(e.target.checked);
+      //document.querySelector('#render-age').onchange = (e) => viewer.setRenderAge(e.target.checked);
+      //document.querySelector('#render-neighbours').onchange = (e) => viewer.setRenderNeighbours(e.target.checked);
       /*
       canvas.onclick = (e) => {
         const rect = e.target.getBoundingClientRect();
