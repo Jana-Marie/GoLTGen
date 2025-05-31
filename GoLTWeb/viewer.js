@@ -227,7 +227,7 @@ class Viewer {
 		} else if (typeof colormap === "string") {
 			const arr = new Uint8Array(256 * 4);
 			for(let i = 0; i < 256; i++) {
-				//console.log((1.0/255.0*i.clamp(minage,maxage))) working, but inverse
+				//console.log((1.0/255.0*i.clamp(minage,maxage))) working, but invers
 				const color = evaluate_cmap(((i > minage ? (i < maxage ? (i-minage) : 255) : 0)/255).clamp(0,1), colormap, reverse);
 				arr[i*4] = color[0];
 				arr[i*4+1] = color[1];
