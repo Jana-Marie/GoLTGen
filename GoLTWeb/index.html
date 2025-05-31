@@ -9,17 +9,32 @@
   <canvas></canvas>
 
   <div class="control" id="settings">
-    <span>X: <input id="xresolution" type="number" style="width: 60px" value="192"/> px&nbsp;&nbsp;</span>
-    <span>Y: <input id="yresolution" type="number" style="width: 60px" value="108"/> px&nbsp;&nbsp;</span>
-    <span>Array X: <input id="xmult" type="number" style="width: 50px" value="1"/>x&nbsp;&nbsp;</span>
-    <span>Array Y: <input id="ymult" type="number" style="width: 50px" value="1"/>x&nbsp;&nbsp;</span>
+    <span><b>Board: </b></span>
+    <span>Size X: <input id="xresolution" type="number" style="width: 50px" value="192"/> px&nbsp;&nbsp;</span>
+    <span>Size Y: <input id="yresolution" type="number" style="width: 50px" value="108"/> px&nbsp;&nbsp;</span>
+    <span>Array X: <input id="xmult" type="number" style="width: 40px" value="1"/>&nbsp;&nbsp;</span>
+    <span>Array Y: <input id="ymult" type="number" style="width: 40px" value="1"/>&nbsp;&nbsp;</span>
     <br>
-    <span>Speed: <input id="interval" type="number" style="width: 40px" value="50"/> ms&nbsp;&nbsp;</span>
+    <span><b>Game: </b></span>
+    <span>Speed: <input id="interval" type="number" style="width: 40px" value="50"/> ms per Frame&nbsp;&nbsp;</span>
+    <br>
+    <span><b>Start Condition: </b></span>
+    <span>
+      <select id="startCondition" style="width: 90px">
+        <option value="randomSeed">Random</option>
+        <option value="rectSeed">Rectangle</option>
+        <option value="squareSeed">Square</option>
+      </select>&nbsp;&nbsp;
+    </span>
+    <span>Modulator: <input id="mod" type="number" style="width: 40px" value="5"/>&nbsp;&nbsp;</span>
+    <br>
+    <span><b>Rules: </b></span>
     <span>Birth at: <input id="birth" type="string" style="width: 90px" value="1, 2, 3, 4, 5"/>&nbsp;&nbsp;</span>
     <span>Death at: <input id="death" type="string" style="width: 90px" value="3"/>&nbsp;&nbsp;</span>
     <span>Natural Death at: <input id="ndeath" type="number" style="width: 60px" value="50"/>&nbsp;&nbsp;</span>
     <br>
-    <span>Color palette:
+    <span><b>Colors: </b></span>
+    <span>Palette:
       <select id="colormap" style="width: 90px">
         <option value=Accent>Accent</option>
         <option value=Blues>Blues</option>
@@ -106,18 +121,12 @@
         <option value=winter>winter</option>
       </select>&nbsp;&nbsp;
     </span>
-    <span>Reverse? <input id="reverse" style="width: 15px; height: 15px;" type="checkbox">&nbsp;&nbsp;</span>
-    <span>Start Condition:
-      <select id="startcondition" style="width: 90px">
-        <option value="randomSeed">Random</option>
-        <option value="rectSeed">Rectangle</option>
-        <option value="squareSeed">Square</option>
-      </select>&nbsp;&nbsp;
-    </span>
-    <span>Modulator: <input id="mod" type="number" style="width: 40px" value="5"/>&nbsp;&nbsp;</span>
+    <span>Reverse <input id="reverse" style="width: 15px; height: 15px;" type="checkbox"/>&nbsp;&nbsp;</span>
+    <span>Start (age): <input id="colorStart" type="number" style="width: 50px" value="0"/>&nbsp;&nbsp;</span>
+    <span>Stop (age): <input id="colorStop" type="number" style="width: 50px" value="255"/>&nbsp;&nbsp;</span>
     <br>
     <br>
-    <button id="creategame">Create Game</button>
+    <button id="createGame">Create Game</button>
   </div>
    
   <div class="control" id="info">
@@ -184,7 +193,7 @@
       const canvas = document.querySelector('canvas');
       let playing = false;
 
-      document.querySelector('#creategame').onclick = () => {
+      document.querySelector('#createGame').onclick = () => {
         const x = document.querySelector('#xresolution').value;
         const y = document.querySelector('#yresolution').value;
         const mx = document.querySelector('#xmult').value;
@@ -200,14 +209,16 @@
         const colormap = document.querySelector('#colormap').value;
         const reverse = document.querySelector('#reverse').value === "on" ? true : false;
 
-        const startcondition = document.querySelector('#startcondition').value;
-        console.log(startcondition)
+        const startCondition = document.querySelector('#startCondition').value;
         const mod = document.querySelector('#mod').value;
+
+        const colorStart = document.querySelector('#colorStart').value;
+        const colorStop = document.querySelector('#colorStop').value;
 
         const offscreen = new OffscreenCanvas(x, y);
 
-        const ca = new CellularAutomaton(x, y, birth, death, ndeath, 40, eval(startcondition), mod);
-        const viewer = new Viewer(offscreen, ca, colormap, reverse, mx, my, 0, 255);
+        const ca = new CellularAutomaton(x, y, birth, death, ndeath, 40, eval(startCondition), mod);
+        const viewer = new Viewer(offscreen, ca, colormap, reverse, mx, my, colorStart, colorStop);
 
         // const viewer = new Viewer(canvas, ca, (val) => [val, 0, 0, 255]);
 
@@ -242,7 +253,7 @@
         if (event.keyCode == 32) {
           event.preventDefault();
           if(document.getElementById("settings").style.display===""){
-            document.querySelector('#creategame').click();
+            document.querySelector('#createGame').click();
           } else {
             if(playing===false){
               document.querySelector('#play').click();
