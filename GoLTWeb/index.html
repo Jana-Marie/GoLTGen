@@ -39,16 +39,23 @@
     <hr>
     <span><b>Start Condition:&nbsp;</b></span>
     <span>
-      <select id="startCondition" style="width: 90px">
+      <select id="startCondition" style="width: 140px">
         <option value="squareSeed">Square</option>
         <option value="rectSeed">Rectangle</option>
+        <option value="rectArraySeed">Rectangle Array</option>
+        <option value="verticalBarSeed">Vertical Bars</option>
+        <option value="horizontalBarSeed">Horizontal Bars</option>
         <option value="circleSeed">Circle</option>
+        <option value="circleArraySeed">Circle Array</option>
+        <option value="ovalSeed">Oval</option>
+        <option value="ringSeed">Ring</option>
         <option value="crossSeed">Cross</option>
+        <option value="randomBlobSeed">Random Blobs</option>
         <option value="randomSeed">Random</option>
       </select>
       &nbsp;&nbsp;
     </span>
-    <span>Modulator:&nbsp;
+    <span>Size:&nbsp;
       <input id="mod" type="number" style="width: 40px" value="5" placeholder="5"/>
       &nbsp;&nbsp;
     </span>
@@ -202,77 +209,7 @@
   <script src="ca.js"></script>
 
   <script>
-    function rectSeed(board, width, height, mod) {
-      mod = Math.round(Math.max((mod/2), 0));
-      a = width/height;
-      if(a > 1){
-        w = mod;
-        h = Math.round(mod*a);
-      } else {
-        w = Math.round(mod*a);
-        h = mod;
-      }
-      midX = width/2;
-      midY = height/2;
-      for(let i = midY-h; i < midY+h; i++) {
-        for (let j = midX-w; j < midX+w; j++) {
-          board[(i*width+j)*4] = 255;
-        }
-      }
-    }
 
-    function squareSeed(board, width, height, mod) {
-      mod = Math.round(Math.max((mod/2), 0));
-      midX = width/2;
-      midY = height/2;
-      for(let i = midY-mod; i < midY+mod; i++) {
-        for (let j = midX-mod; j < midX+mod; j++) {
-          board[(i*width+j)*4] = 255;
-        }
-      }
-    }
-
-    function crossSeed(board, width, height, mod) {
-      mod = Math.round(Math.max((mod/2), 0));
-      midX = width/2;
-      midY = height/2;
-      for(let i = midY-Math.round(mod/2); i < midY+Math.round(mod/2); i++) {
-        for (let j = midX-(mod*2); j < midX+(mod*2); j++) {
-          board[(i*width+j)*4] = 255;
-        }
-      }
-      for(let i = midY-(mod*2); i < midY+(mod*2); i++) {
-        for (let j = midX-Math.round(mod/2); j < midX+Math.round(mod/2); j++) {
-          board[(i*width+j)*4] = 255;
-        }
-      }
-    }
-
-    function circleSeed(board, width, height, mod) {
-      mod = Math.max((mod), 0);
-      midX = width/2;
-      midY = height/2;
-      sq = (mod) ** 2 + (mod) ** 2;
-      for (let i = 0; i < height; i++) {
-        for (let j = 0; j < width; j++) {
-          if(Math.abs(((midY - i) ** 2 + (midX - j) ** 2) < sq)) {
-            board[(i*width+j)*4] = 255;
-          }
-        }
-      }
-    }
-
-    function randomSeed(board, width, height, mod) {
-      mod = Math.max(mod, 0);
-      mod = Math.min(mod, 100);
-      for (let i = 0; i < height; i++) {
-        for (let j = 0; j < width; j++) {
-          if (Math.random() < mod/100) {
-            board[(i*width+j)*4] = 255;
-          }
-        }
-      }
-    }
     
 
     window.onload = function() {
