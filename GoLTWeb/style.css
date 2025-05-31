@@ -19,6 +19,10 @@ br {
   margin:2px;
 }
 
+hr {
+  color: #acac;
+}
+
 .control {
   background: #ffffffa0;
   padding: 10px;

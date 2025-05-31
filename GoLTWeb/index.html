@@ -9,6 +9,8 @@
   <canvas></canvas>
 
   <div class="control" id="settings">
+    <h3>GoLTGen-Web</h3>
+    <hr>
     <span><b>Board:&nbsp;</b></span>
     <span>Size X:&nbsp;
       <input id="xresolution" type="number" style="width: 50px" value="192" placeholder="192"/>
@@ -27,12 +29,14 @@
       &nbsp;&nbsp;
     </span>
     <br>
+    <hr>
     <span><b>Game:&nbsp;</b></span>
     <span>Speed:&nbsp;
       <input id="interval" type="number" style="width: 40px" value="50" placeholder="50"/>
-      &nbsp;ms&nbsp;per&nbsp;Frame&nbsp;&nbsp;
+      &nbsp;fps&nbsp;&nbsp;
     </span>
     <br>
+    <hr>
     <span><b>Start Condition:&nbsp;</b></span>
     <span>
       <select id="startCondition" style="width: 90px">
@@ -49,6 +53,7 @@
       &nbsp;&nbsp;
     </span>
     <br>
+    <hr>
     <span><b>Rules:&nbsp;</b></span>
     <span>Survive:&nbsp;
       <input id="survive" type="string" style="width: 90px" value="1, 2, 3, 4, 5" placeholder="1-9"/>
@@ -63,6 +68,7 @@
       &nbsp;iterations&nbsp;&nbsp;
     </span>
     <br>
+    <hr>
     <span><b>Colors:&nbsp;</b></span>
     <span>Palette:
       <select id="colormap" style="width: 120px">
@@ -164,7 +170,7 @@
       <input id="colorStop" type="number" style="width: 50px" value="100" placeholder="100"/>
       &nbsp;%&nbsp;&nbsp;
     </span>
-    <br style="margin-top:15px;">
+    <br style="margin-top:25px;">
     <button id="createGame">Create Game</button>
   </div>
    
@@ -306,8 +312,8 @@
         const generationCount = document.querySelector('#generation');
         ca.onGenerationChanged = (generation) => {
           generationCount.innerHTML = generation;
-          const avg = Math.round(viewer.total_duration/generation);
-          timer.innerHTML = `${viewer.last_render_duration} (${avg})`;
+          const avg = Math.round((1/(viewer.total_duration/generation))*1000);
+          timer.innerHTML = `${avg} (${Math.round(1/viewer.last_render_duration*1000)})`;
         };
 
         const interval = document.querySelector('#interval');
@@ -323,7 +329,7 @@
       document.querySelector('#next').onclick = () => viewer.next();
       document.querySelector('#play').onclick = () => {
         playing = true;
-        viewer.play(parseInt(interval.value));
+        viewer.play(Math.round(1/parseInt(interval.value)*1000));
       }
       document.querySelector('#pause').onclick = () => {
         playing = false;
