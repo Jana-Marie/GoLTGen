@@ -48,7 +48,7 @@ The whole project was furthermore fueled by RevisionParty23 <3
 
 Open `GoLTWeb/index.html`, define a set of rules, game parameter and display options and press `Create Game`. Once the game has been created you can press `Play` or press your `space` key.
 
-### Python
+### Python (outdated)
 
 You can add your rules to the list of rules below, and choose one from the commandline.
 
