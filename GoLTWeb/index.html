@@ -50,7 +50,7 @@
         <option value="ovalSeed">Oval</option>
         <option value="ringSeed">Ring</option>
         <option value="crossSeed">Cross</option>
-        <option value="randomBlobSeed">Random Blobs</option>
+        <option value="randomBlobSeed">Random Blob</option>
         <option value="randomSeed">Random</option>
       </select>
       &nbsp;&nbsp;
@@ -59,6 +59,7 @@
       <input id="mod" type="number" style="width: 40px" value="5" placeholder="5"/>
       &nbsp;&nbsp;
     </span>
+    <img src="assets/circle.png" id="gamefieldIcon" />
     <br>
     <hr>
     <span><b>Rules:&nbsp;</b></span>
@@ -181,7 +182,8 @@
       <input id="colorStop" type="number" style="width: 50px" value="100" placeholder="100"/>
       &nbsp;%&nbsp;&nbsp;
     </span>
-    
+    <hr class="colorPreview">
+    <hr>
     <button id="createGame"><b>Create Game</b></button>
   </div>
      
@@ -249,6 +251,7 @@
   <script src="ca.js"></script>
   <script>
     window.onload = function() {
+
       const canvas = document.querySelector('#game');
       let playing = false;
 
@@ -308,6 +311,42 @@
       document.querySelector('#pause').onclick = () => {
         playing = false;
         viewer.pause();
+      }
+
+      const gamefieldDropdown = document.getElementById('startCondition');
+      renderGamefield();
+
+      gamefieldDropdown.addEventListener('change', function (e) {
+        renderGamefield();
+      });
+
+      function renderGamefield(){
+        console.log(gamefieldDropdown.value)
+        document.getElementById('gamefieldIcon').src = 'assets/' + gamefieldDropdown.value + '.png';
+      }
+
+      function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+      }
+
+      function rgbToHex(rgb) {
+        return "#" + componentToHex(rgb[0]) + componentToHex(rgb[1]) + componentToHex(rgb[2]);
+      }
+      
+      const colormapDropdown = document.getElementById('colormap');
+      renderGradient();
+
+      colormapDropdown.addEventListener('change', function (e) {
+        renderGradient();
+      });
+
+      function renderGradient(){
+        let gradientString = ""
+        for(let i = 0; i < 32; i++) {
+          gradientString += rgbToHex(evaluate_cmap(i/32, colormapDropdown.value, document.querySelector('#reverse').checked)) + (i < 31 ? ', ' : '');
+        }
+        document.documentElement.style.setProperty('--gradient', gradientString);
       }
 
       window.onkeydown = function(event) {
