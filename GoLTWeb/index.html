@@ -7,7 +7,6 @@
 <body>
 
   <canvas id="game"></canvas>
-<!-- <canvas id="debug"></canvas> -->
 
   <div class="control" id="settings">
     <h2>GoLTGen-Web</h2>
@@ -237,21 +236,6 @@
     <button id="next">next</button>
     <span id="timer" style="width: 120px; display: inline-block;">&nbsp;</span>
     <span id="generation">&nbsp;</span>
-
-
-
-
-<!--
-   <label>
-      <input id="render-active" type="checkbox" checked autocomplete="off"> active
-    </label>
-    <label>
-      <input id="render-age" type="checkbox" checked autocomplete="off"> age
-    </label>
-    <label>
-      <input id="render-neighbours" type="checkbox" checked autocomplete="off"> neighbours
-    </label>
--->
     <div id="info">&nbsp;</div>
     <br>
     <span style="font-size: 14px;">press <kbd>h</kbd> to hide this menu </span>
@@ -266,7 +250,6 @@
   <script>
     window.onload = function() {
       const canvas = document.querySelector('#game');
-      //const debug = document.querySelector('#debug');
       let playing = false;
 
       document.querySelector('#createGame').onclick = () => {
@@ -298,8 +281,6 @@
         const ca = new CellularAutomaton(x, y, survive, birth, ndeath, 40, eval(startCondition), mod);
         const viewer = new Viewer(offscreen, ca, colormap, reverse, mirror, mx, my, colorStart, colorStop);
 
-        //const dbgViewer = new DebugViewer(debug, offscreen, ca);
-
         const generationCount = document.querySelector('#generation');
         ca.onGenerationChanged = (generation) => {
           generationCount.innerHTML = generation;
@@ -311,9 +292,6 @@
 
         window.viewer = viewer;
         viewer.render();
-
-        //window.dbgViewer = dbgViewer;
-        //dbgViewer.render();
 
         document.getElementById("settings").style.display="none";
         document.getElementById("tutorial").style.display="none";
@@ -356,26 +334,6 @@
           }
         };
       };
-      
-      //document.querySelector('#render-active').onchange = (e) => viewer.setRenderActive(e.target.checked);
-      //document.querySelector('#render-age').onchange = (e) => viewer.setRenderAge(e.target.checked);
-      //document.querySelector('#render-neighbours').onchange = (e) => viewer.setRenderNeighbours(e.target.checked);
-      /*
-      canvas.onclick = (e) => {
-        const rect = e.target.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const board_x = Math.floor(x / rect.width * ca.width);
-        const board_y = Math.floor(y / rect.height * ca.height);
-        const info = ca.getCell(board_x, board_y);
-        document.getElementById('info').innerHTML = `
-            x: ${board_x}, 
-            y: ${board_y}, 
-            active: ${info.active ? 'yes' : 'no'},
-            age: ${info.age},
-            neighbours: ${info.neighbours}`;
-      }
-      */
     }
   </script>
 </body>
