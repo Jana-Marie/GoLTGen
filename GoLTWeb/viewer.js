@@ -47,7 +47,7 @@ void main() {
 `;
 
 class Viewer {
-	constructor(canvas, ca, colormap, reverse, mulx=1, muly=1, minage=0, maxage=255) {
+	constructor(canvas, ca, colormap, reverse, mirror, mulx=1, muly=1, minage=0, maxage=255) {
 		this.canvas = canvas;
 		canvas.width = ca.width;
 		canvas.height = ca.height;
@@ -105,7 +105,7 @@ class Viewer {
 	   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 	   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, this.ca.width, this.ca.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, this.ca.getCurrentBoard());
 
-	   const colormap_converted = this.convertColormap(colormap, reverse, minage, maxage);
+	   const colormap_converted = this.convertColormap(colormap, reverse, mirror, minage, maxage);
 	   const colormapTexture = gl.createTexture();
 		gl.activeTexture(gl.TEXTURE1);
 	   gl.bindTexture(gl.TEXTURE_2D, colormapTexture);
@@ -197,7 +197,9 @@ class Viewer {
 		}
 	}
 
-	convertColormap(colormap, reverse, minage, maxage) {
+	convertColormap(colormap, reverse, mirror, minage, maxage) {
+		minage = Math.round(minage);
+		maxage = Math.round(maxage);
 		if (colormap instanceof Uint8Array) {
 			return colormap;
 		}
@@ -229,7 +231,13 @@ class Viewer {
 			for(let i = 0; i < 256; i++) {
 				//console.log((1.0/255.0*i.clamp(minage,maxage))) working, but inver
 				//console.log(((i > minage ? (i < maxage ? (i-minage)*(255/(maxage-minage)) : 255) : 0)/255).clamp(0,1))
-				const color = evaluate_cmap(((i > minage ? (i < maxage ? (i-minage)*(255/(maxage-minage)) : 255) : 0)/255).clamp(0,1), colormap, reverse);
+				let _i = 0;
+				if(mirror === true){
+					_i = Math.abs(((i-minage)*(255/(maxage-minage)))*2-256);
+				} else {
+					_i = (i-minage)*(255/(maxage-minage));
+				}
+				const color = evaluate_cmap((((i >= minage ? (i < maxage ? _i : 255) : 0)/255)).clamp(0,1), colormap, reverse);
 				arr[i*4] = color[0];
 				arr[i*4+1] = color[1];
 				arr[i*4+2] = color[2];
