@@ -1,19 +1,21 @@
+/* Gradient */
 :root {
   --gradient: #666666, #666666, #666666, #666666, #bf5b17, #bf5b17, #bf5b17, #bf5b17, #f0027f, #f0027f, #f0027f, #f0027f, #386cb0, #386cb0, #386cb0, #386cb0, #ffff99, #ffff99, #ffff99, #ffff99, #fdc086, #fdc086, #fdc086, #fdc086, #beaed4, #beaed4, #beaed4, #beaed4, #7fc97f, #7fc97f, #7fc97f, #7fc97f;
 }
 
+/* General Rules */
 body {
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
   background: #acac;
-  margin:0px;
+  margin: 0px;
 }
 
 canvas {
-  width:100%;
-  z-index:-1;
-  position:fixed;
-  margin-top:-10px;
+  width: 100%;
+  z-index: -1;
+  position: fixed;
+  margin-top: -10px;
   image-rendering: pixelated
 }
 
@@ -21,34 +23,18 @@ hr {
   color:#acac;
 }
 
+/* Create Game Button */
 #createGame {
   margin-top: 25px;
   display: block;
 }
 
+/* Create Game, Tutorial, Presets and Controls */
 .control {
   background: #ffffffa0;
-  padding:10px;
+  padding: 10px;
   margin: 10px;
-  width:900px;
-}
-
-#tutorial {
-  top:400px;
-  left:10px;
-}
-
-#presets {
-  top:1550px;
-  left:10px;
-}
-
-#settings {
-  display: block;
-}
-
-#info {
-  display: none;
+  width: 900px;
 }
 
 .colorPreview {
@@ -58,8 +44,57 @@ hr {
 }
 
 #gamefieldIcon {
-  height:24px;
-  margin-top:-3px;
-  vertical-align:middle;
+  height: 24px;
+  margin-top: -3px;
+  vertical-align: middle;
   display: inline-block;
+}
+
+#tutorial {
+  top: 400px;
+  left: 10px;
+}
+
+#presets {
+  top: 1550px;
+  left: 10px;
+}
+
+#createGameSettings {
+  display: block;
+}
+
+#info {
+  display: none;
+}
+
+/* Input Fields */
+
+#resolutionX, #resolutionY, #colormapStart, #colormapStop {
+  width: 50px;
+}
+
+#arrayX, #arrayY, #iterationTime, #startConditionModulator {
+  width: 40px;
+}
+
+#startCondition, #colormap {
+  width: 140px;
+}
+
+#survive, #birth {
+  width: 90px
+}
+
+#naturalDeath {
+  width: 60px;
+}
+
+#reverseColormap, #mirrorColormap {
+  width: 15px;
+  height: 15px;
+}
+
+#controlHint {
+  font-size: 14px;
 }
