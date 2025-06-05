@@ -226,18 +226,18 @@ class Viewer {
 				arr[i*4+3] = color[3];
 			}
 			return arr;
-		} else if (typeof colormap === "string") {
+		} else if (typeof colormap === "string") { // only relevant function right now
 			const arr = new Uint8Array(256 * 4);
 			for(let i = 0; i < 256; i++) {
 				//console.log((1.0/255.0*i.clamp(minage,maxage))) working, but inver
 				//console.log(((i > minage ? (i < maxage ? (i-minage)*(255/(maxage-minage)) : 255) : 0)/255).clamp(0,1))
 				let _i = 0;
-				if(mirror === true){
+				if(mirror === 'on'){
 					_i = Math.abs(((i-minage)*(255/(maxage-minage)))*2-256);
 				} else {
 					_i = (i-minage)*(255/(maxage-minage));
 				}
-				const color = evaluate_cmap((((i >= minage ? (i < maxage ? _i : 255) : 0)/255)).clamp(0,1), colormap, reverse);
+				const color = evaluate_cmap((((i >= minage ? (i < maxage ? _i : 255) : 0)/255)).clamp(0,1), colormap, reverse === 'on' ? true : false);
 				arr[i*4] = color[0];
 				arr[i*4+1] = color[1];
 				arr[i*4+2] = color[2];
