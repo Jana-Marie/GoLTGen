@@ -8,38 +8,39 @@
 
   <canvas id="game"></canvas>
 
-  <div class="control" id="settings">
+  <form class="control" id="createGameSettings">
     <h2>GoLTGen-Web</h2>
     <hr>
     <span><b>Board:&nbsp;</b></span>
     <span>Size X:&nbsp;
-      <input id="xresolution" type="number" style="width: 50px" value="192" placeholder="192"/>
+      <input id="resolutionX" name="resolutionX" type="number" value="192" placeholder="192"/>
       &nbsp;px&nbsp;&nbsp;
     </span>
     <span>Size Y:&nbsp;
-      <input id="yresolution" type="number" style="width: 50px" value="108" placeholder="108"/>
+      <input id="resolutionY" name="resolutionY" type="number" value="108" placeholder="108"/>
       &nbsp;px&nbsp;&nbsp;
     </span>
     <span>Array X:&nbsp;
-      <input id="xmult" type="number" style="width: 40px" value="1" placeholder="1"/>
+      <input id="arrayX" name="arrayX" type="number" value="1" placeholder="1"/>
       &nbsp;&nbsp;
     </span>
     <span>Array Y:&nbsp;
-      <input id="ymult" type="number" style="width: 40px" value="1" placeholder="1"/>
+      <input id="arrayY" name="arrayY" type="number" value="1" placeholder="1"/>
       &nbsp;&nbsp;
     </span>
     <br>
     <hr>
     <span><b>Game:&nbsp;</b></span>
     <span>Speed:&nbsp;
-      <input id="interval" type="number" style="width: 40px" value="50" placeholder="50"/>
-      &nbsp;fps&nbsp;&nbsp;
+      <input id="iterationTime" name="iterationTime" type="number" value="50" placeholder="50"/>
+      &nbsp;ms&nbsp;&nbsp;
     </span>
+    <span>[TODO: show calculated fps here]</span>
     <br>
     <hr>
     <span><b>Start Condition:&nbsp;</b></span>
     <span>
-      <select id="startCondition" style="width: 140px">
+      <select id="startCondition" name="startCondition">
         <option value="squareSeed">Square</option>
         <option value="rectSeed">Rectangle</option>
         <option value="rectArraySeed">Rectangle Array</option>
@@ -56,7 +57,7 @@
       &nbsp;&nbsp;
     </span>
     <span>Size:&nbsp;
-      <input id="mod" type="number" style="width: 40px" value="5" placeholder="5"/>
+      <input id="startConditionModulator" name="startConditionModulator" type="number" value="5" placeholder="5"/>
       &nbsp;&nbsp;
     </span>
     <img src="assets/circle.png" id="gamefieldIcon" />
@@ -64,22 +65,22 @@
     <hr>
     <span><b>Rules:&nbsp;</b></span>
     <span>Survive:&nbsp;
-      <input id="survive" type="string" style="width: 90px" value="1, 2, 3, 4, 5" placeholder="1-9"/>
+      <input id="survive" name="survive" type="string" style="" value="1, 2, 3, 4, 5" placeholder="1-9"/>
       &nbsp;&nbsp;
     </span>
     <span>Birth:&nbsp;
-      <input id="birth" type="string" style="width: 90px" value="3" placeholder="1-9"/>
+      <input id="birth" name="birth" type="string" value="3" placeholder="1-9"/>
       &nbsp;&nbsp;
     </span>
     <span>Natural&nbsp;Death&nbsp;at:&nbsp;
-      <input id="ndeath" type="number" style="width: 60px" value="200" placeholder="0-255"/>
+      <input id="naturalDeath" name="naturalDeath" type="number" value="200" placeholder="0-255"/>
       &nbsp;iterations&nbsp;&nbsp;
     </span>
     <br>
     <hr>
     <span><b>Colors:&nbsp;</b></span>
     <span>Palette:
-      <select id="colormap" style="width: 120px">
+      <select id="colormap" name="colormap">
         <option value=Accent>Accent</option>
         <option value=Blues>Blues</option>
         <option value=BrBG>BrBG</option>
@@ -166,31 +167,31 @@
       </select>&nbsp;&nbsp;
     </span>
     <span>Reverse:&nbsp;
-      <input id="reverse" style="width: 15px; height: 15px;" type="checkbox" checked/>
+      <input id="reverseColormap" name="reverseColormap" type="checkbox" checked/>
       &nbsp;&nbsp;
     </span>
     <span>Mirror:&nbsp;
-      <input id="mirror" style="width: 15px; height: 15px;" type="checkbox" checked/>
+      <input id="mirrorColormap" name="mirrorColormap" type="checkbox" checked/>
       &nbsp;&nbsp;
     </span>
     <span>Start (age):&nbsp;
-      <input id="colorStart" type="number" style="width: 50px" value="0" placeholder="0"/>
+      <input id="colormapStart" name="colormapStart" type="number" value="0" placeholder="0"/>
       &nbsp;%&nbsp;&nbsp;
     </span>
     <span><b><</b>&nbsp;&nbsp;</span>
     <span>Stop (age):&nbsp;
-      <input id="colorStop" type="number" style="width: 50px" value="100" placeholder="100"/>
+      <input id="colormapStop" name="colormapStop" type="number" value="100" placeholder="100"/>
       &nbsp;%&nbsp;&nbsp;
     </span>
     <hr class="colorPreview">
     <hr>
-    <button id="createGame"><b>Create Game</b></button>
-  </div>
+    <button id="createGame" type="submit"><b>Create Game</b></button>
+  </form>
      
   <div class="control" id="presets">
     <h3>Presets</h3>
     <hr>
-    <span>awa</span>
+    <span>Soon..</span>
   </div>
 
   <div class="control" id="tutorial">
@@ -207,7 +208,7 @@
     <hr>
     <span><b>Start Condition</b></span><br>
     <span>To initiate a game there always needs to be a <b>start condition</b>, an empty gamefield usually does not make a game. This start condition is an image of living cells, a collection of cells that are alive with an age of 0. Those will then be susceptible to the rules defined in the next section. A set of condition generators is availble here, from squares, rectangles, circles, ovals, to arrays of thos (2x2 arrays) and random start conditions.</span><br>
-    <span>These conditions can furthermore be modified by changing their <b>"Size"</b>. With rectangles, squares, circles, ovals, rings and crosses it affects their size in pixels in the most literal sense. For the random generator it changes the density of living cells, where a lower number means more cells. For the vertical and horizontal bars it defines the number of lines.</span>
+    <span>These conditions can furthermore be startConditionModulatorified by changing their <b>"Size"</b>. With rectangles, squares, circles, ovals, rings and crosses it affects their size in pixels in the most literal sense. For the random generator it changes the density of living cells, where a lower number means more cells. For the vertical and horizontal bars it defines the number of lines.</span>
     <hr>
     <span>GoLTGen is for the most part a standard <a href="https://en.wikipedia.org/wiki/Cellular_automaton" target="_blank">Cellular Automaton</a> with the additions of a cells Age (from 0-255) and the Natural Death attribute (When does a cell naturally vanish?).</span><br>
     <span><b>Rules</b></span><br>
@@ -219,14 +220,14 @@
     <hr>
     <span><b>Colors</b></span><br>
     <span>To make this cellular automaton visually interesting we need to map some <b>colors</b> onto it. Since usually there are only two states to a cell, dead or alive, we have added a third state that gives us a more interesting view of a cell, its age! Our display is each cells age mapped onto a colour palette from matplotlib.</span><br>
-    <span>The colour-maps can be reversed by enabling <b>reverse</b></span><br>
+    <span>The colour-maps can be reverseColormapd by enabling <b>reverseColormap</b></span><br>
     <span>To give you some more control you can re-map each color palette better onto the cells lifetime by changing when in its lifetime the palette should start to change, and when it should stop to change. You can create some dead-banding with this and make the whole game visally less complex, more pleasing.</span>
     <hr>
     <span><b>Controls</b></span><br>
     <span>For when you are in a game you can control it with your keyboard. A game will keep some history, allowing you to go back in time.</span><br>
     <span>Press <kbd>space</kbd> to start or pause a game.</span><br>
     <span>Press <kbd>arrow-right</kbd> to advance one iteration when the game is paused.</span><br>
-    <span>Press <kbd>arrow-left</kbd> to reverse one iteration when the game is paused.</span><br>
+    <span>Press <kbd>arrow-left</kbd> to reverseColormap one iteration when the game is paused.</span><br>
     <span>Press <kbd>h</kbd> to hide the game-controls</span><br>
     <span>Press <kbd>F5</kbd> to go back to this screen.</span><br>
   </div>
@@ -240,7 +241,7 @@
     <span id="generation">&nbsp;</span>
     <div id="info">&nbsp;</div>
     <br>
-    <span style="font-size: 14px;">press <kbd>h</kbd> to hide this menu </span>
+    <span id="controlHint">press <kbd>h</kbd> to hide this menu </span>
   </div>
 
 
@@ -255,34 +256,34 @@
       const canvas = document.querySelector('#game');
       let playing = false;
 
-      document.querySelector('#createGame').onclick = () => {
-        const x = document.querySelector('#xresolution').value;
-        const y = document.querySelector('#yresolution').value;
-        const mx = document.querySelector('#xmult').value;
-        const my = document.querySelector('#ymult').value;
+      function createGame(event) {
+        event.preventDefault();
+        const data = new FormData(event.target);
+        const valuesJSON = Object.fromEntries(data.entries());
+        console.log(valuesJSON)
 
-        const birth = document.querySelector('#birth').value.split(',').map(function(item) {
-            return parseInt(item, 10);
-        });
-        const survive = document.querySelector('#survive').value.split(',').map(function(item) {
-            return parseInt(item, 10);
-        });
-        const ndeath = Math.max(Math.min(document.querySelector('#ndeath').value, 255), 0);
+        const offscreen = new OffscreenCanvas(valuesJSON.resolutionX, valuesJSON.resolutionY);
 
-        const colormap = document.querySelector('#colormap').value;
-        const reverse = document.querySelector('#reverse').checked;
-        const mirror = document.querySelector('#mirror').checked;
-
-        const startCondition = document.querySelector('#startCondition').value;
-        const mod = document.querySelector('#mod').value;
-
-        const colorStart = Math.max(document.querySelector('#colorStart').value*2.55, 0);
-        const colorStop = Math.min(document.querySelector('#colorStop').value*2.55, 255);
-
-        const offscreen = new OffscreenCanvas(x, y);
-
-        const ca = new CellularAutomaton(x, y, survive, birth, ndeath, 40, eval(startCondition), mod);
-        const viewer = new Viewer(offscreen, ca, colormap, reverse, mirror, mx, my, colorStart, colorStop);
+        const ca = new CellularAutomaton(
+            valuesJSON.resolutionX,
+            valuesJSON.resolutionY,
+            valuesJSON.survive.split(',').map(function(item) { return parseInt(item, 10); }),
+            valuesJSON.birth.split(',').map(function(item) { return parseInt(item, 10); }),
+            Math.max(Math.min(valuesJSON.naturalDeath, 255), 0),
+            120, // History
+            eval(valuesJSON.startCondition),
+            valuesJSON.startConditionModulator);
+        
+        const viewer = new Viewer(
+            offscreen,
+            ca,
+            valuesJSON.colormap,
+            valuesJSON.reverseColormap,
+            valuesJSON.mirrorColormap,
+            valuesJSON.arrayX,
+            valuesJSON.arrayY,
+            Math.max(valuesJSON.colormapStart*2.55, 0),
+            Math.min(valuesJSON.colormapStop, 255));
 
         const generationCount = document.querySelector('#generation');
         ca.onGenerationChanged = (generation) => {
@@ -291,22 +292,25 @@
           timer.innerHTML = `${avg} (${Math.round(1/viewer.last_render_duration*1000)})`;
         };
 
-        const interval = document.querySelector('#interval');
+        const iterationTime = document.querySelector('#iterationTime');
 
         window.viewer = viewer;
         viewer.render();
 
-        document.getElementById("settings").style.display="none";
+        document.getElementById("createGameSettings").style.display="none";
         document.getElementById("tutorial").style.display="none";
         document.getElementById("presets").style.display="none";
         document.getElementById("info").style.display="block";
       }
 
+      const createGameForm = document.getElementById("createGameSettings");
+      createGameForm.addEventListener('submit', createGame);
+
       document.querySelector('#prev').onclick = () => viewer.prev();
       document.querySelector('#next').onclick = () => viewer.next();
       document.querySelector('#play').onclick = () => {
         playing = true;
-        viewer.play(Math.round(1/parseInt(interval.value)*1000));
+        viewer.play(Math.round(iterationTime.value));
       }
       document.querySelector('#pause').onclick = () => {
         playing = false;
@@ -321,7 +325,6 @@
       });
 
       function renderGamefield(){
-        console.log(gamefieldDropdown.value)
         document.getElementById('gamefieldIcon').src = 'assets/' + gamefieldDropdown.value + '.png';
       }
 
@@ -344,7 +347,7 @@
       function renderGradient(){
         let gradientString = ""
         for(let i = 0; i < 32; i++) {
-          gradientString += rgbToHex(evaluate_cmap(i/32, colormapDropdown.value, document.querySelector('#reverse').checked)) + (i < 31 ? ', ' : '');
+          gradientString += rgbToHex(evaluate_cmap(i/32, colormapDropdown.value, document.querySelector('#reverseColormap').checked)) + (i < 31 ? ', ' : '');
         }
         document.documentElement.style.setProperty('--gradient', gradientString);
       }
@@ -352,7 +355,7 @@
       window.onkeydown = function(event) {
         if (event.keyCode == 32) {
           event.preventDefault();
-          if(document.getElementById("settings").style.display===""){
+          if(document.getElementById("createGameSettings").style.display===""){
             document.querySelector('#createGame').click();
           } else {
             if(playing===false){
