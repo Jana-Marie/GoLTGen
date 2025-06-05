@@ -176,12 +176,12 @@
     </span>
     <span>Start (age):&nbsp;
       <input id="colormapStart" name="colormapStart" type="number" value="0" placeholder="0"/>
-      &nbsp;%&nbsp;&nbsp;
+      &nbsp;&nbsp;
     </span>
     <span><b><</b>&nbsp;&nbsp;</span>
     <span>Stop (age):&nbsp;
-      <input id="colormapStop" name="colormapStop" type="number" value="100" placeholder="100"/>
-      &nbsp;%&nbsp;&nbsp;
+      <input id="colormapStop" name="colormapStop" type="number" value="200" placeholder="200"/>
+      &nbsp;&nbsp;
     </span>
     <hr class="colorPreview">
     <hr>
@@ -283,7 +283,7 @@
             valuesJSON.arrayX,
             valuesJSON.arrayY,
             Math.max(valuesJSON.colormapStart*2.55, 0),
-            Math.min(valuesJSON.colormapStop, 255));
+            Math.min(valuesJSON.colormapStop*2.55, 255));
 
         const generationCount = document.querySelector('#generation');
         ca.onGenerationChanged = (generation) => {

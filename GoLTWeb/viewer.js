@@ -200,6 +200,7 @@ class Viewer {
 	convertColormap(colormap, reverse, mirror, minage, maxage) {
 		minage = Math.round(minage);
 		maxage = Math.round(maxage);
+		console.log(minage, maxage)
 		if (colormap instanceof Uint8Array) {
 			return colormap;
 		}
