@@ -191,7 +191,7 @@
   <div class="control" id="presets">
     <h3>Presets</h3>
     <hr>
-    <span>Soon..</span>
+    <ul id="presetList"></ul>
   </div>
 
   <div class="control" id="tutorial">
@@ -233,15 +233,20 @@
   </div>
 
   <div class="control" id="info">
-    <button id="prev">prev</button>
-    <button id="pause">pause</button>
-    <button id="play">play</button>
-    <button id="next">next</button>
-    <span id="timer" style="width: 120px; display: inline-block;">&nbsp;</span>
+    <button id="prev">Prev</button>
+    <button id="pause">Pause</button>
+    <button id="play">Play</button>
+    <button id="next">Next</button>
+    <span id="timer">&nbsp;</span>
     <span id="generation">&nbsp;</span>
     <div id="info">&nbsp;</div>
     <br>
-    <span id="controlHint">press <kbd>h</kbd> to hide this menu </span>
+    <hr>
+    <button id="saveGame">Save this Game</button>
+    <input id="gameName" name="gameName" type="string" value="" placeholder="..."/>
+    <br>
+    <hr>
+    <span id="controlHint">Press <kbd>h</kbd> to hide this menu </span>
   </div>
 
 
@@ -252,13 +257,10 @@
   <script src="user-interface.js"></script>
   <script>
     window.onload = function() {
-      
-
       function createGame(event) {
         event.preventDefault();
         const data = new FormData(event.target);
         const valuesJSON = Object.fromEntries(data.entries());
-        console.log(valuesJSON)
 
         const offscreen = new OffscreenCanvas(valuesJSON.resolutionX, valuesJSON.resolutionY);
 
@@ -295,10 +297,50 @@
         window.viewer = viewer;
         viewer.render();
 
+        document.querySelector('#saveGame').onclick = () => {
+          let saveGameId = "";
+          for (var key in valuesJSON) {      
+            saveGameId = saveGameId + valuesJSON[key].toString().replaceAll(',','').replaceAll(' ','');
+          }
+          const saveGameName = document.getElementById('gameName').value;
+          localStorage.setItem(saveGameName, JSON.stringify(valuesJSON));
+        };
+
         document.getElementById("createGameSettings").style.display="none";
         document.getElementById("tutorial").style.display="none";
         document.getElementById("presets").style.display="none";
         document.getElementById("info").style.display="block";
+      }
+
+      console.log(Object.keys(localStorage))
+      presetList = document.getElementById("presetList")
+      for(var key in Object.keys(localStorage))
+      {
+          let preset = JSON.parse(localStorage.getItem(Object.keys(localStorage)[key]));
+          JSON.parse(localStorage.getItem(Object.keys(localStorage)[key]))
+          presetList.innerHTML += '<li> <button id="presetButton" value="' + Object.keys(localStorage)[key] +
+              '">Select</button> <b>' + Object.keys(localStorage)[key] + '</b>' +
+              '&nbsp;&nbsp;&nbsp;X<span class="presetPreview">' + preset.resolutionX + '</span>' +
+              '&nbsp;&nbsp;Y<span class="presetPreview">' + preset.resolutionY + '</span>' +
+              '&nbsp;&nbsp;' + preset.startCondition + '' +
+              '&nbsp;&nbsp;S<span class="presetPreview">' + preset.survive + '</span>' +
+              '&nbsp;&nbsp;B<span class="presetPreview">' + preset.birth + '</span>' +
+              '&nbsp;&nbsp;N<span class="presetPreview">' + preset.naturalDeath + '</span>' +
+              '&nbsp;&nbsp;' + preset.colormap + '' +
+              '</li>\n'
+      };
+
+      // mostly working, save game loader
+      let buttons = document.querySelectorAll("#presetButton");
+      for (let i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener("click", function (e) {
+          const element = document.getElementById('createGameSettings')
+          for (const kv of Object.entries(JSON.parse(localStorage.getItem(Object.keys(localStorage)[i])))){
+            const field = document.getElementById(kv[0]);
+            field.value = kv[1]; // todo reverse and mirror do not work yet
+          }
+           document.getElementById('createGame').click();
+        });
       }
 
       // Start Game from Settings

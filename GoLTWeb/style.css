@@ -79,7 +79,7 @@ hr {
   width: 40px;
 }
 
-#startCondition, #colormap {
+#startCondition, #colormap, #gameName {
   width: 140px;
 }
 
@@ -97,5 +97,25 @@ hr {
 }
 
 #controlHint {
+  font-size: 14px;
+}
+
+#timer {
+  width: 120px;
+  display: inline-block;
+}
+
+li {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 2px;
+}
+
+ul {
+  padding: 0;
+  margin-top: 0; 
+}
+
+.presetPreview {
   font-size: 14px;
 }
