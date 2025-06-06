@@ -37,6 +37,20 @@ window.onkeydown = function(event) {
   };
 };
 
+// UI Element fps
+const it = document.getElementById('iterationTime');
+renderFps();
+
+it.addEventListener('change', function (e) {
+  renderFps();
+});
+
+function renderFps(){
+  iterationTime = document.getElementById('iterationTime').value;
+  document.getElementById('fps').innerHTML = Math.round(1/iterationTime*1000) + '&nbsp;fps';
+}
+
+
 // UI Element Seed Map
 const gamefieldDropdown = document.getElementById('startCondition');
 renderGamefield();

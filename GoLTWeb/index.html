@@ -35,7 +35,7 @@
       <input id="iterationTime" name="iterationTime" type="number" value="50" placeholder="50"/>
       &nbsp;ms&nbsp;&nbsp;
     </span>
-    <span>[TODO: show calculated fps here]</span>
+    <span id="fps"></span>
     <br>
     <hr>
     <span><b>Start Condition:&nbsp;</b></span>
@@ -289,7 +289,7 @@
         ca.onGenerationChanged = (generation) => {
           generationCount.innerHTML = generation;
           const avg = Math.round((1/(viewer.total_duration/generation))*1000);
-          timer.innerHTML = `${avg} (${Math.round(1/viewer.last_render_duration*1000)})`;
+          timer.innerHTML = `${avg} fps (${Math.round(1/viewer.last_render_duration*1000)} fps)`;
         };
 
         const iterationTime = document.querySelector('#iterationTime');
@@ -312,10 +312,8 @@
         document.getElementById("info").style.display="block";
       }
 
-      console.log(Object.keys(localStorage))
       presetList = document.getElementById("presetList")
-      for(var key in Object.keys(localStorage))
-      {
+      for(var key in Object.keys(localStorage)) {
           let preset = JSON.parse(localStorage.getItem(Object.keys(localStorage)[key]));
           JSON.parse(localStorage.getItem(Object.keys(localStorage)[key]))
           presetList.innerHTML += '<li> <button id="presetButton" value="' + Object.keys(localStorage)[key] +
@@ -339,7 +337,7 @@
             const field = document.getElementById(kv[0]);
             field.value = kv[1]; // todo reverse and mirror do not work yet
           }
-           document.getElementById('createGame').click();
+           //document.getElementById('createGame').click();
         });
       }
 
