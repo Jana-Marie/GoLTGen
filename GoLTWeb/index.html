@@ -289,10 +289,9 @@
         ca.onGenerationChanged = (generation) => {
           generationCount.innerHTML = generation;
           const avg = Math.round((1/(viewer.total_duration/generation))*1000);
-          timer.innerHTML = `${avg} fps (${Math.round(1/viewer.last_render_duration*1000)} fps)`;
+          timer.innerHTML = `${avg} fps (${Math.round(1/viewer.last_render_duration*1000)})`;
         };
 
-        const iterationTime = document.querySelector('#iterationTime');
 
         window.viewer = viewer;
         viewer.render();

@@ -5,6 +5,7 @@ document.querySelector('#prev').onclick = () => viewer.prev();
 document.querySelector('#next').onclick = () => viewer.next();
 document.querySelector('#play').onclick = () => {
   playing = true;
+  const iterationTime = document.querySelector('#iterationTime');
   viewer.play(Math.round(iterationTime.value));
 }
 document.querySelector('#pause').onclick = () => {
