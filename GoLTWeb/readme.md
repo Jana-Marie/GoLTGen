@@ -43,6 +43,9 @@ GoLTGen Web is the successor of GoLTGen, a web based Game of Life alike cellular
      - [ ] Speed on music volume/beat
      - [ ] Step on beat
  - [ ] **User interface**
+   - [ ] Dynamic shaders and sliders on game display to live change inputs
+   - [ ] BPM Controller
+   - [ ] Randomizer
    - [ ] Make Preset/Savegame more usable
      - [ ] Images next to savegames
      - [ ] Make the menu collapsable
