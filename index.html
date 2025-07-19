@@ -309,6 +309,7 @@
         document.getElementById("tutorial").style.display="none";
         document.getElementById("presets").style.display="none";
         document.getElementById("info").style.display="block";
+        window.location.hash = decodeURIComponent(JSON.stringify(valuesJSON))
       }
 
       presetList = document.getElementById("presetList")
@@ -343,6 +344,13 @@
       // Start Game from Settings
       const createGameForm = document.getElementById("createGameSettings");
       createGameForm.addEventListener('submit', createGame);
+
+      if(window.location.hash != ''){
+          for (const kv of Object.entries(JSON.parse(decodeURIComponent(window.location.hash.substring(1))))){
+            const field = document.getElementById(kv[0]);
+            field.value = kv[1]; // todo reverse and mirror do not work yet
+          }
+      }
     }
   </script>
 </body>
