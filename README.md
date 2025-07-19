@@ -1,6 +1,8 @@
-# GoLTGen & GoLTWeb
+# GoLTGen Web
 
-Custom Game of Life alike cellular automaton with a flexible and extended set of rules. Either use the python script provided or simply run the html file supplied in GoLTWeb. Only the GoLTWeb will be further developed
+GoLTGen Web is a webgl2 based Game of Life alike Cellular Automaton. This means that it presents you with a gamefield, rules that apply to a life, lifes, as in cells of the gamefield that are either alive or dead, a start condition and a mean of visualising the cells and their age..
+
+Demo and Tutorial at [jana-marie.github.io/GoLTGen](https://jana-marie.github.io/GoLTGen/)
 
 [production_web.webm](https://user-images.githubusercontent.com/7141239/230789976-2c1fab93-3d73-41d3-bd40-d1ee3da4c4eb.webm)
 
@@ -42,16 +44,6 @@ This concept is heavily insipred by [The Powder Toys](https://powdertoy.co.uk/Wi
 
 The whole project was furthermore fueled by RevisionParty23 <3
 
-## Usage
+## Further Development
 
-### Web
-
-Open `GoLTWeb/index.html`, define a set of rules, game parameter and display options and press `Create Game`. Once the game has been created you can press `Play` or press your `space` key.
-
-### Python (outdated)
-
-You can add your rules to the list of rules below, and choose one from the commandline.
-
-NixOS `./generate.py <name>` or `./generate.py`
-
-other `python3 generate.py <name>` or `python3 generate.py`
+A set of ideas and todos rests at [/main/todo.md](https://github.com/Jana-Marie/GoLTGen/blob/main/todo.md).

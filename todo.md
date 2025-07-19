@@ -14,7 +14,7 @@ GoLTGen Web is the successor of GoLTGen, a web based Game of Life alike cellular
    - [x] Add colormaps
    - [x] Colormap age
    - [x] Colormap selector
- - [ ]**Rules**
+ - [ ] **Rules**
    - [x] Birth
    - [x] Survive
    - [ ] Starve (cells may live n iterations after the death condition has occured)
