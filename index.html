@@ -348,7 +348,11 @@
       if(window.location.hash != ''){
           for (const kv of Object.entries(JSON.parse(decodeURIComponent(window.location.hash.substring(1))))){
             const field = document.getElementById(kv[0]);
-            field.value = kv[1]; // todo reverse and mirror do not work yet
+            if(kv[0] == "reverseColormap" || kv[0] == "mirrorColormap"){
+              field.checked = kv[1] == "on" ? true : false;
+            } else {
+              field.value = kv[1];
+            }
           }
       }
     }
