@@ -335,7 +335,11 @@
           const element = document.getElementById('createGameSettings')
           for (const kv of Object.entries(JSON.parse(localStorage.getItem(Object.keys(localStorage)[i])))){
             const field = document.getElementById(kv[0]);
-            field.value = kv[1]; // todo reverse and mirror do not work yet
+            if(kv[0] == "reverseColormap" || kv[0] == "mirrorColormap"){
+              field.checked = kv[1] == "on" ? true : false;
+            } else {
+              field.value = kv[1];
+            }
           }
            //document.getElementById('createGame').click();
         });
