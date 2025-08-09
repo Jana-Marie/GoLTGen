@@ -1,4 +1,8 @@
 // Game Controls
+window.onload = function() {
+  renderGradient();
+}
+
 let playing = false;
 
 document.querySelector('#prev').onclick = () => viewer.prev();
@@ -74,9 +78,8 @@ function rgbToHex(rgb) {
   return "#" + componentToHex(rgb[0]) + componentToHex(rgb[1]) + componentToHex(rgb[2]);
 }
 
-const colormapDropdown = document.getElementById('colormap');
-renderGradient();
 
+const colormapDropdown = document.getElementById('colormap');
 colormapDropdown.addEventListener('change', function (e) {
   renderGradient();
 });

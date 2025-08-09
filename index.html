@@ -167,11 +167,11 @@
       </select>&nbsp;&nbsp;
     </span>
     <span>Reverse:&nbsp;
-      <input id="reverseColormap" name="reverseColormap" type="checkbox" checked/>
+      <input id="reverseColormap" name="reverseColormap" type="checkbox"/>
       &nbsp;&nbsp;
     </span>
     <span>Mirror:&nbsp;
-      <input id="mirrorColormap" name="mirrorColormap" type="checkbox" checked/>
+      <input id="mirrorColormap" name="mirrorColormap" type="checkbox"/>
       &nbsp;&nbsp;
     </span>
     <span>Start (age):&nbsp;
@@ -302,6 +302,7 @@
             saveGameId = saveGameId + valuesJSON[key].toString().replaceAll(',','').replaceAll(' ','');
           }
           const saveGameName = document.getElementById('gameName').value;
+          console.log(valuesJSON)
           localStorage.setItem(saveGameName, JSON.stringify(valuesJSON));
         };
 
@@ -317,31 +318,23 @@
           let preset = JSON.parse(localStorage.getItem(Object.keys(localStorage)[key]));
           JSON.parse(localStorage.getItem(Object.keys(localStorage)[key]))
           presetList.innerHTML += '<li> <button id="presetButton" value="' + Object.keys(localStorage)[key] +
-              '">Select</button> <b>' + Object.keys(localStorage)[key] + '</b>' +
-              '&nbsp;&nbsp;&nbsp;X<span class="presetPreview">' + preset.resolutionX + '</span>' +
-              '&nbsp;&nbsp;Y<span class="presetPreview">' + preset.resolutionY + '</span>' +
-              '&nbsp;&nbsp;' + preset.startCondition + '' +
-              '&nbsp;&nbsp;S<span class="presetPreview">' + preset.survive + '</span>' +
-              '&nbsp;&nbsp;B<span class="presetPreview">' + preset.birth + '</span>' +
-              '&nbsp;&nbsp;N<span class="presetPreview">' + preset.naturalDeath + '</span>' +
-              '&nbsp;&nbsp;' + preset.colormap + '' +
-              '</li>\n'
+            '">Select</button> <b>' + Object.keys(localStorage)[key] + '</b>' +
+            '&nbsp;&nbsp;&nbsp;X<span class="presetPreview">' + preset.resolutionX + '</span>' +
+            '&nbsp;&nbsp;Y<span class="presetPreview">' + preset.resolutionY + '</span>' +
+            '&nbsp;&nbsp;' + preset.startCondition + '' +
+            '&nbsp;&nbsp;S<span class="presetPreview">' + preset.survive + '</span>' +
+            '&nbsp;&nbsp;B<span class="presetPreview">' + preset.birth + '</span>' +
+            '&nbsp;&nbsp;N<span class="presetPreview">' + preset.naturalDeath + '</span>' +
+            '&nbsp;&nbsp;' + preset.colormap + '' +
+            '</li>\n'
       };
 
-      // mostly working, save game loader
+      // Save game
       let buttons = document.querySelectorAll("#presetButton");
       for (let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener("click", function (e) {
-          const element = document.getElementById('createGameSettings')
-          for (const kv of Object.entries(JSON.parse(localStorage.getItem(Object.keys(localStorage)[i])))){
-            const field = document.getElementById(kv[0]);
-            if(kv[0] == "reverseColormap" || kv[0] == "mirrorColormap"){
-              field.checked = kv[1] == "on" ? true : false;
-            } else {
-              field.value = kv[1];
-            }
-          }
-           //document.getElementById('createGame').click();
+          window.location.hash = decodeURIComponent(localStorage.getItem(Object.keys(localStorage)[i]))
+          location.reload();
         });
       }
 
@@ -350,14 +343,17 @@
       createGameForm.addEventListener('submit', createGame);
 
       if(window.location.hash != ''){
-          for (const kv of Object.entries(JSON.parse(decodeURIComponent(window.location.hash.substring(1))))){
-            const field = document.getElementById(kv[0]);
-            if(kv[0] == "reverseColormap" || kv[0] == "mirrorColormap"){
-              field.checked = kv[1] == "on" ? true : false;
-            } else {
-              field.value = kv[1];
-            }
+        document.getElementById("reverseColormap").checked = false;
+        document.getElementById("mirrorColormap").checked = false;
+        for (const kv of Object.entries(JSON.parse(decodeURIComponent(window.location.hash.substring(1))))){
+          const field = document.getElementById(kv[0]);
+          if(kv[0] == "reverseColormap" || kv[0] == "mirrorColormap"){
+            field.checked = kv[1] == "on" ? true : false;
+          } else {
+            field.value = kv[1];
           }
+        }
+        renderGradient();
       }
     }
   </script>
