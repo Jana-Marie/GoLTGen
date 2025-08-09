@@ -27,8 +27,11 @@ void main() {
 }
 `;
 
-const ca_fragment_shader = (survive, birth, naturalDeath) => {
+const ca_fragment_shader = (survive, birth, naturalDeath, neighborhood_size) => {
 	let surviveCond = survive.map(num => `neighbours == ${num}`).join(' || ');
+	let neighborhood_size_l = -neighborhood_size
+	let neighborhood_size_h = Number(neighborhood_size)+1
+	console.log(neighborhood_size_l, neighborhood_size_h)
 	if (naturalDeath > 0) {
 		surviveCond = `(${surviveCond}) && age < ${naturalDeath}`
 	}
@@ -49,14 +52,14 @@ void main() {
 	// birth: 3
 	ivec2 size = textureSize(u_image, 0);
 	int neighbours = 0;
-	for(int x = -1; x < 2; x++) {
+	for(int x = ${neighborhood_size_l}; x < ${neighborhood_size_h}; x++) {
 		int xCoord = int(v_texCoord.x) + x;
 		if (xCoord < 0) {
 			xCoord = size.x - 1;
 		} else if (xCoord > size.x - 1) {
 			xCoord = 0;
 		}
-		for (int y = -1; y < 2; y++) {
+		for (int y = ${neighborhood_size_l}; y < ${neighborhood_size_h}; y++) {
 			if (x == 0 && y == 0) continue;
 			int yCoord = int(v_texCoord.y) + y;
 			if (yCoord < 0) {
@@ -95,12 +98,13 @@ void main() {
 
 
 class CellularAutomaton {
-	constructor(width, height, survive, birth, naturalDeath, historyCount, seedFn, modulator) {
+	constructor(width, height, survive, birth, naturalDeath, historyCount, seedFn, modulator, neighborhood_size) {
 		this.historyCount = Math.max(historyCount, 1);
 		this.width = width;
 		this.height = height;
 		this.onGenerationChanged = null;
 		this.max_age = naturalDeath;
+		this.neighborhood_size = Math.max(0, neighborhood_size)
 
 		const canvas = document.createElement('canvas');
 		canvas.width = width;
@@ -108,7 +112,7 @@ class CellularAutomaton {
 		const gl = canvas.getContext('webgl2', {antialias: false});
 		this.gl = gl;
 		// TODO: dynamically create the shaders based on the survive and birth rule
-		const fragmentShader = ca_fragment_shader(survive, birth, naturalDeath);
+		const fragmentShader = ca_fragment_shader(survive, birth, naturalDeath, neighborhood_size);
 		const program = createProgram(gl, ca_vertex_shader, fragmentShader);
 
 		const locations = {

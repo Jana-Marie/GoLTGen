@@ -26,9 +26,8 @@ GoLTGen Web is the successor of GoLTGen, a web based Game of Life alike cellular
  - [ ] **Game**
    - [ ] Other neighborhoods
      - [x] Moore neighborhood
+      - [x] r=n
      - [ ] Von Neumann neighborhood
-      - [ ] r=1
-      - [ ] r=2
       - [ ] r=n
    - [ ] Stale detection
    - [ ] Other grid shapes
