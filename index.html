@@ -35,9 +35,9 @@
       <input id="iterationTime" name="iterationTime" type="number" value="50" placeholder="50"/>
       &nbsp;ms&nbsp;&nbsp;
     </span>
-    <span id="fps"></span>
-    <span>Neighborhood:&nbsp;&nbsp;
-      <input id="neighborhood_size" name="neighborhood_size" type="number" value="1" placeholder="1"/>
+    <span id="fps"></span>&nbsp;&nbsp;
+    <span>Neighborhood:&nbsp;
+      <input id="neighborhoodSize" name="neighborhoodSize" type="number" value="1" placeholder="1"/>
       &nbsp;
     </span>
     <br>
@@ -277,7 +277,7 @@
             120, // History
             eval(valuesJSON.startCondition),
             valuesJSON.startConditionModulator,
-            valuesJSON.neighborhood_size);
+            valuesJSON.neighborhoodSize);
         
         const viewer = new Viewer(
             offscreen,

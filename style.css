@@ -74,7 +74,7 @@ hr {
   width: 50px;
 }
 
-#arrayX, #arrayY, #iterationTime, #startConditionModulator {
+#arrayX, #arrayY, #iterationTime, #startConditionModulator, #neighborhoodSize {
   width: 40px;
 }
 
