@@ -48,14 +48,12 @@ GoLTGen Web is the successor of GoLTGen, a web based Game of Life alike cellular
    - [ ] Randomizer
    - [ ] Make Preset/Savegame more usable
      - [ ] Images next to savegames
-     - [ ] Make the menu collapsable
-     - [ ] Visial indication of a save-game success
-     - [ ] Checkboxes don't work yet
+     - [x] Visial indication of a save-game success
+     - [x] Checkboxes don't work yet
    - [x] Make hideable for a full-screen experience
    - [x] Speed slider
    - [x] Rules checkbox input
    - [x] Colormap(s) selector
-   - [ ] BPM input, Step on Beat and Beat modulated Speed
    - [x] Opt-In ~~Cookies~~ Local Storage to save user input
    - [x] Game size, game scale (size of grid and how big it should be displayed)
    - [x] Repeat, Mirror, Stretch
@@ -69,5 +67,3 @@ GoLTGen Web is the successor of GoLTGen, a web based Game of Life alike cellular
  - [ ] **JS/HTML/CSS/GLSL**
    - [ ] Clean up code
    - [ ] Make shader dynamic
- - [ ] **Future**
-   - [ ] Implement CCA when this is done ._.
