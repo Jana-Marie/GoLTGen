@@ -248,8 +248,6 @@
     <hr>
     <span id="controlHint">Press <kbd>h</kbd> to hide this menu </span>
   </div>
-
-
   <script src="utils.js"></script>
   <script src="js-colormaps.js"></script>
   <script src="viewer.js"></script>
@@ -292,7 +290,6 @@
           timer.innerHTML = `${avg} fps (${Math.round(1/viewer.last_render_duration*1000)})`;
         };
 
-
         window.viewer = viewer;
         viewer.render();
 
@@ -302,8 +299,13 @@
             saveGameId = saveGameId + valuesJSON[key].toString().replaceAll(',','').replaceAll(' ','');
           }
           const saveGameName = document.getElementById('gameName').value;
-          console.log(valuesJSON)
           localStorage.setItem(saveGameName, JSON.stringify(valuesJSON));
+          document.getElementById('gameName').value = 'Saved as ' + saveGameName + '!';
+          setTimeout(clearSaveGameName,600);
+        };
+
+        function clearSaveGameName() {
+          document.getElementById('gameName').value = ''
         };
 
         document.getElementById("createGameSettings").style.display="none";

@@ -70,7 +70,6 @@ hr {
 }
 
 /* Input Fields */
-
 #resolutionX, #resolutionY, #colormapStart, #colormapStop {
   width: 50px;
 }
@@ -118,4 +117,16 @@ ul {
 
 .presetPreview {
   font-size: 14px;
+}
+
+#saveGame:focus { 
+  animation: saveGame 0.6s;
+  -webkit-animation: saveGame 0.6s;
+  animation-iteration-count: 1;
+  -webkit-animation-iteration-count: 1;
+}
+@keyframes saveGame  {
+    0%   {color:#000; background-color:#73d7ee00; text-shadow:0 0 9px rgba(255,255,144,0);}
+    90%  {color:#000; background-color:#ffafc7; text-shadow:0 0 9px rgba(255,255,144,0.75);}
+    100% {color:#0000; background-color:#0000; text-shadow:0 0 9px rgba(255,255,144,0);}
 }
