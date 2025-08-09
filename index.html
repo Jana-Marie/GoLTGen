@@ -210,7 +210,7 @@
     <span>To initiate a game there always needs to be a <b>start condition</b>, an empty gamefield usually does not make a game. This start condition is an image of living cells, a collection of cells that are alive with an age of 0. Those will then be susceptible to the rules defined in the next section. A set of condition generators is availble here, from squares, rectangles, circles, ovals, to arrays of thos (2x2 arrays) and random start conditions.</span><br>
     <span>These conditions can furthermore be startConditionModulatorified by changing their <b>"Size"</b>. With rectangles, squares, circles, ovals, rings and crosses it affects their size in pixels in the most literal sense. For the random generator it changes the density of living cells, where a lower number means more cells. For the vertical and horizontal bars it defines the number of lines.</span>
     <hr>
-    <span>GoLTGen is for the most part a standard <a href="https://en.wikipedia.org/wiki/Cellular_automaton" target="_blank">Cellular Automaton</a> with the additions of a cells Age (from 0-255) and the Natural Death attribute (When does a cell naturally vanish?).</span><br>
+    <span>GoLTGen is for the most part a standard two-dimensional <a href="https://en.wikipedia.org/wiki/Cellular_automaton" target="_blank">Moore neighborhood Cellular Automaton</a> with the additions of a cells Age (from 0-255) and the Natural Death attribute (When does a cell naturally vanish?).</span><br>
     <span><b>Rules</b></span><br>
     <span>There are three basic sets of rules. When does a cell <b>Survive</b>? When does a cell get <b>born</b>? When does a cell <b>die naturally</b>? The first two rules are represented by a string of literals, e.g. "1, 2, 3", that represent how many neighbours have to be alive to meet this rules condition.</span><br>
     <span>I.e. if the rules for <b>survival</b> are set to "1, 2, 3" then either 1, 2 or three neighbours have to be alive for the cell in question to survive another iteration. If no neighbouring cell is alive, then the cell in question will "starve" and die. If more than 2 neighbouring cells are alive, it will die of "overcrowdedness".</span><br>
@@ -230,6 +230,8 @@
     <span>Press <kbd>arrow-left</kbd> to reverseColormap one iteration when the game is paused.</span><br>
     <span>Press <kbd>h</kbd> to hide the game-controls</span><br>
     <span>Press <kbd>F5</kbd> to go back to this screen.</span><br>
+    <br>
+    <span>You can share Games by sharing their link, you can also save games to local storage by giving them a name in game and press save!</span>
   </div>
 
   <div class="control" id="info">
